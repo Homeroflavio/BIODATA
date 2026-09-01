@@ -1,0 +1,126 @@
+services:
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: biodata_airflow
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__HOSTNAME_CALLABLE: airflow.utils.net.get_host_ip_address
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-db:5432/${AIRFLOW_DB_NAME}
+
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./extract:/opt/airflow/extract
+      - ./transform:/opt/airflow/transform
+      - ./load:/opt/airflow/load
+      - ./sql:/opt/airflow/sql
+      - ./dados_brutos:/opt/airflow/dados_brutos
+      - ./dados_transformados:/opt/airflow/dados_transformados
+      - ./dados_finais:/opt/airflow/dados_finais
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - airflow-db
+
+    command: api-server
+
+
+  airflow-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: biodata_airflow_scheduler
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__HOSTNAME_CALLABLE: airflow.utils.net.get_host_ip_address
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-db:5432/${AIRFLOW_DB_NAME}
+
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./extract:/opt/airflow/extract
+      - ./transform:/opt/airflow/transform
+      - ./load:/opt/airflow/load
+      - ./sql:/opt/airflow/sql
+      - ./dados_brutos:/opt/airflow/dados_brutos
+      - ./dados_transformados:/opt/airflow/dados_transformados
+      - ./dados_finais:/opt/airflow/dados_finais
+
+    depends_on:
+      - airflow-db
+
+    command: scheduler
+
+
+  airflow-dag-processor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: biodata_airflow_dag_processor
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__HOSTNAME_CALLABLE: airflow.utils.net.get_host_ip_address
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@airflow-db:5432/${AIRFLOW_DB_NAME}
+      AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow:8080/execution/
+
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./extract:/opt/airflow/extract
+      - ./transform:/opt/airflow/transform
+      - ./load:/opt/airflow/load
+      - ./sql:/opt/airflow/sql
+      - ./dados_brutos:/opt/airflow/dados_brutos
+      - ./dados_transformados:/opt/airflow/dados_transformados
+      - ./dados_finais:/opt/airflow/dados_finais
+
+    depends_on:
+      - airflow-db
+
+    command: dag-processor
+
+
+  airflow-db:
+    image: postgres:16
+
+    container_name: biodata_airflow_db
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: ${AIRFLOW_DB_USER}
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+      POSTGRES_DB: ${AIRFLOW_DB_NAME}
+
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+
+
+volumes:
+  airflow_db_data:

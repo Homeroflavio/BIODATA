@@ -1,0 +1,22 @@
+codigo,nome,sistema,peso_numerico
+CR,Critically Endangered,moderno,4.0
+DD,Data Deficient,moderno,
+E,Endangered,legado,3.0
+EN,Endangered,moderno,3.0
+EW,Extinct in the Wild,moderno,5.0
+EX,Extinct,moderno,6.0
+I,Indeterminate,legado,
+K,Unknown,desconhecido,
+LC,Least Concern,moderno,0.0
+LR/cd,Unknown,desconhecido,
+LR/lc,Unknown,desconhecido,
+LR/nt,Unknown,desconhecido,
+,Unknown,desconhecido,
+,Unknown,desconhecido,
+NE,Not Evaluated,moderno,
+NR,Unknown,desconhecido,
+NT,Near Threatened,moderno,1.0
+R,Rare,legado,1.0
+T,Threatened,legado,2.0
+V,Vulnerable,legado,2.0
+VU,Vulnerable,moderno,2.0

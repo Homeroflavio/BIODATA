@@ -1,0 +1,252 @@
+﻿id_pan,bioma
+CBC_01.01,Amazônia
+CBC_01.01,Caatinga
+CBC_01.01,Cerrado
+CBC_01.01,Mata Atlântica
+CBC_01.01,Pampa
+CBC_01.01,Pantanal
+CBC_02.01,Amazônia
+CBC_02.01,Caatinga
+CBC_02.01,Cerrado
+CBC_02.01,Mata Atlântica
+CBC_02.01,Pampa
+CECAV_01.01,Cerrado
+CECAV_02.01,Caatinga
+CECAV_02.01,Cerrado
+CECAV_02.01,Mata Atlântica
+CECAV_03.01,Amazônia
+CECAV_03.01,Caatinga
+CECAV_03.01,Cerrado
+CECAV_03.01,Sistema Costeiro-Marinho
+CECAV_03.01,Mata Atlântica
+CECAV_03.01,Pampa
+CECAV_03.01,Pantanal
+CEMAVE_01.01,Mata Atlântica
+CEMAVE_02.01,Sistema Costeiro-Marinho
+CEMAVE_03.01,Caatinga
+CEMAVE_04.01,Amazônia
+CEMAVE_04.01,Cerrado
+CEMAVE_04.01,Mata Atlântica
+CEMAVE_04.01,Pampa
+CEMAVE_04.01,Pantanal
+CEMAVE_05.01,Amazônia
+CEMAVE_05.01,Caatinga
+CEMAVE_05.01,Cerrado
+CEMAVE_05.01,Mata Atlântica
+CEMAVE_06.01,Mata Atlântica
+CEMAVE_07.01,Mata Atlântica
+CEMAVE_08.01,Caatinga
+CEMAVE_09.01,Mata Atlântica
+CEMAVE_10.02,Sistema Costeiro-Marinho
+CEMAVE_11.01,Caatinga
+CEMAVE_12.01,Mata Atlântica
+CEMAVE_12.01,Pampa
+CEMAVE_13.01,Caatinga
+CEMAVE_14.01,Amazônia
+CEMAVE_14.01,Cerrado
+CEMAVE_14.01,Sistema Costeiro-Marinho
+CEMAVE_14.01,Mata Atlântica
+CEMAVE_14.01,Pampa
+CEMAVE_14.01,Pantanal
+CEMAVE_15.02,Caatinga
+CEMAVE_16.01,Amazônia
+CEMAVE_17.01,Cerrado
+CEMAVE_17.01,Pantanal
+CEMAVE_18.01,Cerrado
+CEMAVE_18.01,Mata Atlântica
+CEMAVE_19.02,Caatinga
+CEMAVE_20.01,Mata Atlântica
+CEMAVE_21.02,Amazônia
+CEMAVE_21.02,Caatinga
+CEMAVE_21.02,Cerrado
+CEMAVE_21.02,Mata Atlântica
+CEMAVE_21.02,Pampa
+CEMAVE_21.02,Pantanal
+CEMAVE_22.02,Mata Atlântica
+CEMAVE_22.02,Pampa
+CEMAVE_23.02,Cerrado
+CEMAVE_23.02,Mata Atlântica
+CEMAVE_24.01,Sistema Costeiro-Marinho
+CEMAVE_25.02,Caatinga
+CEMAVE_26.03,Sistema Costeiro-Marinho
+CEMAVE_27.02,Caatinga
+CEMAVE_28.02,Amazônia
+CEMAVE_28.02,Cerrado
+CEMAVE_28.02,Sistema Costeiro-Marinho
+CEMAVE_28.02,Mata Atlântica
+CEMAVE_28.02,Pampa
+CEMAVE_28.02,Pantanal
+CEMAVE_29.02,Cerrado
+CEMAVE_29.02,Pantanal
+CEMAVE_30.02,Amazônia
+CEMAVE_31.02,Mata Atlântica
+CENAP_01.01,Amazônia
+CENAP_01.01,Caatinga
+CENAP_01.01,Cerrado
+CENAP_01.01,Mata Atlântica
+CENAP_01.01,Pampa
+CENAP_01.01,Pantanal
+CENAP_02.01,Caatinga
+CENAP_02.01,Cerrado
+CENAP_02.01,Mata Atlântica
+CENAP_02.01,Pantanal
+CENAP_03.01,Amazônia
+CENAP_03.01,Caatinga
+CENAP_03.01,Cerrado
+CENAP_03.01,Mata Atlântica
+CENAP_03.01,Pantanal
+CENAP_04.01,Caatinga
+CENAP_04.01,Cerrado
+CENAP_04.01,Mata Atlântica
+CENAP_05.01,Cerrado
+CENAP_05.01,Mata Atlântica
+CENAP_05.01,Pampa
+CENAP_05.01,Pantanal
+CENAP_06.01,Amazônia
+CENAP_06.01,Cerrado
+CENAP_06.01,Mata Atlântica
+CENAP_06.01,Pantanal
+CENAP_07.01,Amazônia
+CENAP_07.01,Caatinga
+CENAP_07.01,Cerrado
+CENAP_07.01,Mata Atlântica
+CENAP_07.01,Pampa
+CENAP_07.01,Pantanal
+CENAP_08.02,Amazônia
+CENAP_08.02,Caatinga
+CENAP_08.02,Cerrado
+CENAP_08.02,Mata Atlântica
+CENAP_08.02,Pampa
+CENAP_08.02,Pantanal
+CENAP_09.01,Amazônia
+CENAP_09.01,Caatinga
+CENAP_09.01,Cerrado
+CENAP_09.01,Mata Atlântica
+CENAP_09.01,Pampa
+CENAP_09.01,Pantanal
+CENAP_10.01,Amazônia
+CENAP_10.01,Caatinga
+CENAP_10.01,Cerrado
+CENAP_10.01,Mata Atlântica
+CENAP_10.01,Pampa
+CENAP_10.01,Pantanal
+CENAP_11.01,Amazônia
+CENAP_11.01,Caatinga
+CENAP_11.01,Cerrado
+CENAP_11.01,Mata Atlântica
+CENAP_11.01,Pampa
+CENAP_11.01,Pantanal
+CENAP_12.02,Amazônia
+CENAP_12.02,Caatinga
+CENAP_12.02,Cerrado
+CENAP_12.02,Mata Atlântica
+CENAP_12.02,Pampa
+CENAP_12.02,Pantanal
+CENAP_13.01,Caatinga
+CENAP_13.01,Cerrado
+CENAP_13.01,Pampa
+CENAP_13.01,Pantanal
+CENAP_14.01,Amazônia
+CENAP_14.01,Mata Atlântica
+CEPAM_01.01,Amazônia
+CEPAM_02.01,Amazônia
+CEPENE_01.01,Sistema Costeiro-Marinho
+CEPSUL_01.01,Sistema Costeiro-Marinho
+CEPSUL_02.01,Sistema Costeiro-Marinho
+CEPSUL_03.01,Sistema Costeiro-Marinho
+CEPSUL_03.01,Mata Atlântica
+CEPSUL_03.01,Pampa
+CEPSUL_04.02,Sistema Costeiro-Marinho
+CEPSUL_05.02,Sistema Costeiro-Marinho
+CEPTA_01.01,Mata Atlântica
+CEPTA_02.01,Cerrado
+CEPTA_02.01,Mata Atlântica
+CEPTA_03.01,Caatinga
+CEPTA_03.01,Cerrado
+CEPTA_03.01,Mata Atlântica
+CEPTA_03.01,Pampa
+CEPTA_04.01,Caatinga
+CEPTA_04.01,Cerrado
+CEPTA_04.01,Mata Atlântica
+CEPTA_05.01,Mata Atlântica
+CEPTA_06.01,Mata Atlântica
+CEPTA_07.02,Caatinga
+CEPTA_07.02,Cerrado
+CEPTA_07.02,Mata Atlântica
+CEPTA_07.02,Pampa
+CEPTA_08.02,Mata Atlântica
+CEPTA_09.01,Mata Atlântica
+CEPTA_09.01,Cerrado
+CEPTA_08.02,Caatinga
+CEPTA_08.02,Cerrado
+CMA_01.01,Sistema Costeiro-Marinho
+CMA_02.01,Sistema Costeiro-Marinho
+CMA_03.01,Sistema Costeiro-Marinho
+CMA_04.01,Amazônia
+CMA_04.01,Sistema Costeiro-Marinho
+CMA_05.01,Amazônia
+CMA_06.01,Sistema Costeiro-Marinho
+CMA_07.02,Sistema Costeiro-Marinho
+CNPT_01.01,Amazônia
+CNPT_01.01,Sistema Costeiro-Marinho
+CNPT_01.01,Mata Atlântica
+CPB_01.01,Mata Atlântica
+CPB_02.01,Mata Atlântica
+CPB_03.01,Mata Atlântica
+CPB_04.01,Amazônia
+CPB_05.01,Caatinga
+CPB_05.01,Mata Atlântica
+CPB_06.01,Caatinga
+CPB_06.01,Cerrado
+CPB_06.01,Pantanal
+CPB_07.01,Amazônia
+CPB_08.02,Caatinga
+CPB_08.02,Mata Atlântica
+CPB_09.02,Amazônia
+CPB_10.01,Mata Atlântica
+CPB_11.01,Amazônia
+CPB_11.01,Caatinga
+CPB_11.01,Cerrado
+CPB_11.01,Mata Atlântica
+CPB_11.01,Pantanal
+RAN_01.01,Mata Atlântica
+RAN_02.01,Cerrado
+RAN_02.01,Mata Atlântica
+RAN_03.01,Mata Atlântica
+RAN_03.01,Pampa
+RAN_04.01,Caatinga
+RAN_04.01,Mata Atlântica
+RAN_05.01,Amazônia
+RAN_06.01,Mata Atlântica
+RAN_07.01,Cerrado
+RAN_07.01,Pantanal
+RAN_08.02,Cerrado
+RAN_08.02,Mata Atlântica
+RAN_09.02,Mata Atlântica
+RAN_09.02,Pampa
+RAN_10.02,Caatinga
+RAN_10.02,Mata Atlântica
+TAMAR_01.01,Sistema Costeiro-Marinho
+TAMAR_02.02,Sistema Costeiro-Marinho
+CEMAVE_34.02,Sistema Costeiro-Marinho
+TAMAR_03.03,Sistema Costeiro-Marinho
+CEPTA_10.02,Mata Atlântica
+CEMAVE_33.03,Caatinga
+CEMAVE_32.03,Mata Atlântica
+CEMAVE_32.03,Pampa
+RAN_11.02,Mata Atlântica
+RAN_11.02,Cerrado
+RAN_11.02,Caatinga
+CENAP_15.03,Cerrado
+CENAP_15.03,Pantanal
+CEMAVE_36.04,Sistema Costeiro-Marinho
+CENAP_16.02,Amazônia
+CENAP_16.02,Caatinga
+CENAP_16.02,Cerrado
+CENAP_16.02,Mata Atlântica
+CENAP_16.02,Pampa
+CENAP_16.02,Pantanal
+RAN_12.02,Cerrado
+RAN_12.02,Pantanal
+RAN_12.02,Amazônia
+CPB_14.03,Amazônia

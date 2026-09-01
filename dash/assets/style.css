@@ -1,0 +1,1142 @@
+/* ============================================================
+   BIODATA — STYLE.CSS
+   Estilo geral do projeto
+   ============================================================ */
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f6f5;
+    color: #1f2933;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* ============================================================
+   CONTAINER GERAL
+   ============================================================ */
+
+.app-container {
+    min-height: 100vh;
+    background: #f4f6f5;
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+    background: #12372a;
+    color: white;
+    padding: 70px 8% 65px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    right: -100px;
+    top: -180px;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    right: 100px;
+    bottom: -210px;
+}
+
+.hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #b7d8c4;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    margin: 0;
+    max-width: 850px;
+    font-size: clamp(36px, 5vw, 62px);
+    line-height: 1.05;
+    font-weight: 750;
+    letter-spacing: -2px;
+}
+
+.hero p {
+    max-width: 720px;
+    margin: 25px 0 0;
+    color: #d6e5dc;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   NAVEGAÇÃO
+   ============================================================ */
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8%;
+    min-height: 68px;
+    background: white;
+    border-bottom: 1px solid #e1e6e3;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 68px;
+    padding: 0 16px;
+    color: #5c6862;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #12372a;
+    background: #f5f8f6;
+}
+
+.nav-link.active {
+    color: #12372a;
+    border-bottom-color: #2f7654;
+}
+
+.nav-link.disabled {
+    color: #a4ada8;
+    cursor: default;
+}
+
+.nav-link.disabled:hover {
+    color: #a4ada8;
+    background: transparent;
+}
+
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL
+   ============================================================ */
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 30px 80px;
+}
+
+
+/* ============================================================
+   SEÇÕES
+   ============================================================ */
+
+.section {
+    margin-bottom: 70px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.section-number {
+    min-width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #12372a;
+    color: white;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.section-heading h2 {
+    margin: 0;
+    color: #1d2a24;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+    margin: 7px 0 0;
+    color: #758079;
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   BOX DE CONTEXTO
+   ============================================================ */
+
+.context-box {
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-left: 4px solid #3f7d5e;
+    border-radius: 12px;
+    padding: 25px 28px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+}
+
+.context-box p {
+    margin: 0 0 15px;
+    color: #536059;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.context-box p:last-child {
+    margin-bottom: 0;
+}
+
+.context-box strong {
+    color: #234a36;
+}
+
+
+/* ============================================================
+   FONTES
+   ============================================================ */
+
+.sources-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.source-card {
+    background: white;
+    border: 1px solid #e1e6e3;
+    border-radius: 13px;
+    padding: 25px;
+    min-height: 210px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.source-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(25, 50, 38, 0.08);
+}
+
+.source-sigla {
+    width: fit-content;
+    padding: 7px 11px;
+    border-radius: 7px;
+    background: #e6f0ea;
+    color: #286144;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.source-card h3 {
+    margin: 0 0 12px;
+    color: #26352d;
+    font-size: 17px;
+    line-height: 1.35;
+}
+
+.source-card p {
+    margin: 0;
+    color: #707b75;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   CONCEITOS
+   ============================================================ */
+
+.concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.concept-card {
+    background: white;
+    border: 1px solid #e1e6e3;
+    border-radius: 13px;
+    padding: 25px;
+}
+
+.concept-card h3 {
+    margin: 0 0 12px;
+    color: #234a36;
+    font-size: 18px;
+}
+
+.concept-card p {
+    margin: 0;
+    color: #69756e;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   PIPELINE
+   ============================================================ */
+
+.pipeline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid #e1e6e3;
+    border-radius: 14px;
+    padding: 42px 20px 30px;
+    overflow-x: auto;
+}
+
+
+/* ============================================================
+   ETAPAS DA PIPELINE
+   ============================================================ */
+
+.pipeline-step {
+    position: relative;
+    min-width: 145px;
+    min-height: 74px;
+    padding: 17px 15px;
+    border: 1px solid #dfe6e1;
+    border-radius: 10px;
+    background: #ffffff;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: default;
+
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.35s ease;
+}
+
+
+/* ============================================================
+   TEXTO DA PIPELINE
+   ============================================================ */
+
+.pipeline-step strong {
+    display: block;
+    color: #234a36;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+
+    transition: color 0.25s ease;
+}
+
+.pipeline-step span {
+    display: block;
+    color: #707b75;
+    font-size: 12px;
+
+    transition: color 0.25s ease;
+}
+
+
+/* ============================================================
+   EFEITO HOVER DAS ETAPAS
+   ============================================================ */
+
+.pipeline-step:hover {
+    transform: translateY(-8px) scale(1.035);
+    background: #12372a;
+    border-color: #12372a;
+    box-shadow: 0 14px 28px rgba(18, 55, 42, 0.18);
+}
+
+.pipeline-step:hover strong,
+.pipeline-step:hover span {
+    color: white;
+}
+
+
+/* ============================================================
+   CAMADAS BRONZE / PRATA / OURO
+   ============================================================ */
+
+.pipeline-layer {
+    position: absolute;
+
+    top: -27px;
+
+    padding: 5px 10px;
+
+    background: white;
+
+    border: 1px solid #dfe6e1;
+
+    border-radius: 7px;
+
+    color: #5f6c65;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+
+    opacity: 0;
+
+    transform: translateY(8px) scale(0.85);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* Aparece somente no hover */
+
+.pipeline-step:hover .pipeline-layer {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+
+/* ============================================================
+   CORES DOS SELOS
+   ============================================================ */
+
+.pipeline-bronze:hover .pipeline-layer {
+    color: #8a5a2b;
+    border-color: #c99a6b;
+}
+
+.pipeline-prata:hover .pipeline-layer {
+    color: #68747c;
+    border-color: #aeb8bd;
+}
+
+.pipeline-ouro:hover .pipeline-layer {
+    color: #8a6b16;
+    border-color: #d8bd5c;
+}
+
+
+/* ============================================================
+   BIODATA / DASH
+   ============================================================ */
+
+.pipeline-final {
+    background: #ffffff;
+    border-color: #cfdad4;
+}
+
+.pipeline-final strong,
+.pipeline-final span {
+    color: #234a36;
+}
+
+
+/* Hover do Dash */
+
+.pipeline-final:hover {
+    background: #12372a;
+    border-color: #12372a;
+}
+
+.pipeline-final:hover strong,
+.pipeline-final:hover span {
+    color: white;
+}
+
+
+/* ============================================================
+   SETAS
+   ============================================================ */
+
+.pipeline-arrow {
+    color: #6f7e76;
+    font-size: 22px;
+    font-weight: 400;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        color 0.25s ease;
+}
+
+
+/* ============================================================
+   SETA REAGE QUANDO A ETAPA ANTERIOR É ATIVADA
+   ============================================================ */
+
+.pipeline-step:hover + .pipeline-arrow {
+    color: #12372a;
+    transform: translateX(9px) scaleX(1.35);
+}
+
+
+/* ============================================================
+   ANIMAÇÃO CONTÍNUA DA SETA
+   ============================================================ */
+
+.pipeline-step:hover + .pipeline-arrow {
+    animation: fluxo-seta 0.75s ease-in-out infinite alternate;
+}
+
+@keyframes fluxo-seta {
+
+    from {
+        transform: translateX(4px) scaleX(1);
+    }
+
+    to {
+        transform: translateX(11px) scaleX(1.3);
+    }
+
+}
+
+
+/* ============================================================
+   CARDS DA PÁGINA 1
+   ============================================================ */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 23px 20px;
+    min-height: 150px;
+}
+
+.stat-number {
+    color: #12372a;
+    font-size: 30px;
+    font-weight: 750;
+    letter-spacing: -1px;
+}
+
+.stat-title {
+    margin-top: 8px;
+    color: #34443b;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.stat-description {
+    margin-top: 5px;
+    color: #8a938e;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+
+/* ============================================================
+   PÁGINAS 2 E 3 — ESTRUTURA GERAL
+   ============================================================ */
+
+.pagina2,
+.pagina3 {
+    min-height: calc(100vh - 68px);
+    background: #f4f6f5;
+    padding: 45px 6%;
+}
+
+.pagina2 h1,
+.pagina3 h1 {
+    color: #12372a;
+}
+
+.pagina2 .card,
+.pagina3 .card {
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+}
+
+
+/* ============================================================
+   PÁGINA 4 — DISTRIBUIÇÃO
+   ============================================================ */
+
+.pagina4 {
+    min-height: calc(100vh - 68px);
+    padding: 45px 6% 70px;
+    background: #f4f6f5;
+}
+
+.titulo-pagina {
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #12372a;
+    font-size: 38px;
+    font-weight: 750;
+    letter-spacing: -1px;
+}
+
+.subtitulo-pagina {
+    max-width: 1200px;
+    margin: 8px auto 30px;
+    color: #758079;
+    font-size: 15px;
+}
+
+
+/* ============================================================
+   CABEÇALHO PÁGINA 4
+   ============================================================ */
+
+.cabecalho-pagina {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   FILTROS PÁGINA 4
+   ============================================================ */
+
+.filtros-pagina4 {
+    max-width: 1200px;
+    margin: 0 auto 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.filtro-container {
+    background: white;
+    border: 1px solid #dfe6e1;
+    border-radius: 12px;
+    padding: 17px 18px 13px;
+    box-shadow: 0 3px 12px rgba(24, 45, 35, 0.035);
+}
+
+.label-filtro {
+    display: block;
+    margin-bottom: 8px;
+    color: #34443b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   DROPDOWNS DASH
+   ============================================================ */
+
+.Select-control {
+    min-height: 42px !important;
+    border: 1px solid #d6ded9 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.Select-control:hover {
+    border-color: #6d9b82 !important;
+}
+
+.Select-placeholder,
+.Select-value-label {
+    color: #4e5c54 !important;
+    font-size: 13px !important;
+}
+
+.Select-menu-outer {
+    border: 1px solid #d6ded9 !important;
+    box-shadow: 0 10px 25px rgba(24, 45, 35, 0.12) !important;
+    z-index: 1000 !important;
+}
+
+.Select-option {
+    font-size: 13px !important;
+    padding: 10px 12px !important;
+}
+
+.Select-option.is-focused {
+    background: #edf4ef !important;
+    color: #234a36 !important;
+}
+
+.Select-clear-zone {
+    color: #8a938e !important;
+}
+
+
+/* ============================================================
+   CARDS PÁGINA 4
+   ============================================================ */
+
+.cards-pagina4 {
+    max-width: 1200px;
+    margin: 0 auto 22px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.cards-pagina4 .card {
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 22px 25px;
+    min-height: 115px;
+    box-shadow: 0 3px 12px rgba(24, 45, 35, 0.035);
+}
+
+.cards-pagina4 .card h3 {
+    margin: 0 0 9px;
+    color: #68746d;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.cards-pagina4 .card h2 {
+    margin: 0;
+    color: #12372a;
+    font-size: 31px;
+    font-weight: 750;
+}
+
+
+/* ============================================================
+   GRÁFICOS
+   ============================================================ */
+
+.grafico-container {
+    max-width: 1200px;
+    margin: 0 auto 22px;
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 10px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+    overflow: hidden;
+}
+
+.linha-graficos-pagina4 {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.linha-graficos-pagina4 .grafico-container {
+    width: 100%;
+    margin: 0;
+}
+
+.js-plotly-plot {
+    width: 100% !important;
+}
+
+
+/* ============================================================
+   PÁGINA 2 — VISUAL PREMIUM DOS GRÁFICOS
+   ============================================================ */
+
+/*
+   IMPORTANTE:
+   Estas regras são exclusivas dos gráficos da página 2.
+   Não alteram os outros gráficos do projeto.
+*/
+
+
+.biodata-bar-graph,
+.biodata-donut-graph {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   CONTAINER DOS GRÁFICOS DA PÁGINA 2
+   ============================================================ */
+
+.biodata-bar-graph .plot-container,
+.biodata-donut-graph .plot-container {
+    border-radius: 18px;
+}
+
+
+/* ============================================================
+   SUPERFÍCIE PREMIUM
+   ============================================================ */
+
+.biodata-bar-graph .main-svg,
+.biodata-donut-graph .main-svg {
+    border-radius: 18px;
+}
+
+
+/*
+   Pequena profundidade visual.
+   Não é uma sombra exagerada para não parecer card de PowerPoint.
+*/
+
+.biodata-bar-graph,
+.biodata-donut-graph {
+    filter:
+        drop-shadow(0 8px 18px rgba(18, 55, 42, 0.035))
+        drop-shadow(0 2px 4px rgba(90, 100, 95, 0.025));
+}
+
+
+/* ============================================================
+   CURSOR DOS GRÁFICOS
+   ============================================================ */
+
+.biodata-bar-graph .nsewdrag,
+.biodata-bar-graph .nwsewdrag,
+.biodata-bar-graph .ewdrag,
+.biodata-bar-graph .nsdrag,
+.biodata-donut-graph .nsewdrag,
+.biodata-donut-graph .nwsewdrag,
+.biodata-donut-graph .ewdrag,
+.biodata-donut-graph .nsdrag {
+    cursor: default !important;
+}
+
+
+/* ============================================================
+   TEXTO DOS GRÁFICOS
+   ============================================================ */
+
+.biodata-bar-graph .xtick text,
+.biodata-bar-graph .ytick text,
+.biodata-donut-graph text {
+    transition:
+        fill 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+/* ============================================================
+   HOVER VISUAL DO CONTAINER
+   ============================================================ */
+
+.biodata-bar-graph,
+.biodata-donut-graph {
+    transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.45s ease;
+}
+
+.biodata-bar-graph:hover,
+.biodata-donut-graph:hover {
+    filter:
+        drop-shadow(0 12px 24px rgba(18, 55, 42, 0.07))
+        drop-shadow(0 3px 7px rgba(90, 100, 95, 0.04));
+}
+
+
+/* ============================================================
+   EFEITO PREMIUM PARA TEXTO CENTRAL DA ROSCA
+   ============================================================ */
+
+.biodata-donut-graph .annotation-text {
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+/* ============================================================
+   ACABAMENTO DAS BORDAS DA ROSCA
+   ============================================================ */
+
+.biodata-donut-graph .slice path {
+    transition:
+        opacity 0.35s ease,
+        filter 0.35s ease,
+        stroke-width 0.35s ease;
+}
+
+
+/* ============================================================
+   ACABAMENTO DAS BARRAS
+   ============================================================ */
+
+.biodata-bar-graph .barlayer .trace .point path {
+    transition:
+        filter 0.35s ease,
+        opacity 0.35s ease;
+}
+
+
+/*
+   Brilho extremamente discreto.
+   O JavaScript vai controlar o destaque individual
+   das barras durante o hover.
+*/
+
+.biodata-bar-graph .barlayer .trace .point:hover path {
+    filter:
+        drop-shadow(0 4px 7px rgba(18, 55, 42, 0.20));
+}
+
+
+/* ============================================================
+   TOOLTIP / HOVERLABEL
+   ============================================================ */
+
+.biodata-bar-graph .hovertext text,
+.biodata-donut-graph .hovertext text {
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif !important;
+}
+
+
+/* ============================================================
+   ANIMAÇÃO DE ENTRADA — ESTADO INICIAL
+   ============================================================ */
+
+/*
+   O JavaScript da página 2 adicionará a classe
+   .biodata-chart-visible quando o gráfico entrar
+   no viewport.
+
+   Assim evitamos animar imediatamente ao carregar
+   a página.
+*/
+
+.biodata-bar-graph.chart-entering,
+.biodata-donut-graph.chart-entering {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+}
+
+.biodata-bar-graph.chart-visible,
+.biodata-donut-graph.chart-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+
+    transition:
+        opacity 0.75s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.45s ease;
+}
+
+
+/* ============================================================
+   INDICAÇÃO VISUAL DE INTERATIVIDADE
+   ============================================================ */
+
+.biodata-bar-graph .draglayer,
+.biodata-donut-graph .draglayer {
+    cursor: default;
+}
+
+
+/* ============================================================
+   REDUÇÃO DE MOVIMENTO
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .biodata-bar-graph,
+    .biodata-donut-graph,
+    .biodata-bar-graph .barlayer .trace .point path,
+    .biodata-donut-graph .slice path {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+
+/* ============================================================
+   RODAPÉ
+   ============================================================ */
+
+.footer {
+    background: #12372a;
+    color: #cbdad2;
+    padding: 25px 8%;
+    text-align: center;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE — TABLET
+   ============================================================ */
+
+@media (max-width: 1000px) {
+
+    .sources-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .concepts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .linha-graficos-pagina4 {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros-pagina4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE — CELULAR
+   ============================================================ */
+
+@media (max-width: 650px) {
+
+    .hero {
+        padding: 50px 25px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .navigation {
+        padding: 0 15px;
+    }
+
+    .nav-link {
+        padding: 0 12px;
+        font-size: 12px;
+    }
+
+    .main-content {
+        padding: 25px 18px 60px;
+    }
+
+    .section-heading h2 {
+        font-size: 23px;
+    }
+
+    .sources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pipeline {
+        justify-content: flex-start;
+        padding-top: 42px;
+    }
+
+    .pipeline-arrow {
+        display: none;
+    }
+
+    .pagina4 {
+        padding: 30px 15px 50px;
+    }
+
+    .titulo-pagina {
+        font-size: 30px;
+    }
+
+    .cards-pagina4 {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros-pagina4 {
+        grid-template-columns: 1fr;
+    }
+
+    .grafico-container {
+        padding: 4px;
+    }
+
+    /*
+       Página 2 em telas pequenas:
+       reduzimos um pouco a profundidade para
+       manter os gráficos leves.
+    */
+
+    .biodata-bar-graph,
+    .biodata-donut-graph {
+        filter: none;
+    }
+}
