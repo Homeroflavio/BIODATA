@@ -619,6 +619,147 @@ a {
 
 
 /* ============================================================
+   PÁGINA 3 — RANKING DE ESPÉCIES
+   ============================================================ */
+
+.species-ranking-container {
+    display: grid;
+    grid-template-columns: 1.5fr 0.85fr;
+    gap: 22px;
+    margin-top: 22px;
+    align-items: stretch;
+}
+
+
+/* ============================================================
+   LISTA DE ESPÉCIES
+   ============================================================ */
+
+.species-ranking-list {
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 8px 24px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+}
+
+.species-ranking-item {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    min-height: 62px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf0ee;
+}
+
+.species-ranking-item:last-child {
+    border-bottom: none;
+}
+
+.species-ranking-number {
+    color: #12372a;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.species-ranking-info {
+    min-width: 0;
+}
+
+.species-ranking-name {
+    color: #24352d;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.species-ranking-scientific {
+    margin-top: 3px;
+    color: #8a938e;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.species-ranking-category {
+    max-width: 190px;
+    color: #3f7d5e;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: right;
+}
+
+
+/* ============================================================
+   ESPÉCIE EM DESTAQUE / ÁREA DA IMAGEM
+   ============================================================ */
+
+.species-ranking-highlight {
+    min-height: 100%;
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 25px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.species-highlight-label {
+    color: #3f7d5e;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+}
+
+.species-highlight-name {
+    color: #1d2a24;
+    font-size: 21px;
+    font-weight: 750;
+    line-height: 1.25;
+}
+
+.species-highlight-scientific {
+    margin-top: 5px;
+    color: #7b8780;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.species-highlight-category {
+    width: fit-content;
+    margin-top: 13px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    background: #e6f0ea;
+    color: #286144;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.species-highlight-image {
+    flex: 1;
+    min-height: 300px;
+    margin-top: 22px;
+    border: 1px dashed #c9d4ce;
+    border-radius: 10px;
+    background: #f7f9f8;
+    color: #9aa59f;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 12px;
+    text-align: center;
+}
+
+
+/* ============================================================
    PÁGINA 4 — DISTRIBUIÇÃO
    ============================================================ */
 
@@ -1054,6 +1195,16 @@ a {
     .filtros-pagina4 {
         grid-template-columns: 1fr;
     }
+
+    /* Ranking da Página 3 */
+
+    .species-ranking-container {
+        grid-template-columns: 1fr;
+    }
+
+    .species-ranking-highlight {
+        min-height: 420px;
+    }
 }
 
 
@@ -1138,5 +1289,45 @@ a {
     .biodata-bar-graph,
     .biodata-donut-graph {
         filter: none;
+    }
+
+
+    /* ========================================================
+       RANKING DA PÁGINA 3 — CELULAR
+       ======================================================== */
+
+    .species-ranking-list {
+        padding: 6px 16px;
+    }
+
+    .species-ranking-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 10px;
+        padding: 14px 0;
+    }
+
+    .species-ranking-category {
+        grid-column: 2;
+        max-width: none;
+        text-align: left;
+        margin-top: 3px;
+        font-size: 11px;
+    }
+
+    .species-ranking-name {
+        font-size: 14px;
+    }
+
+    .species-ranking-scientific {
+        font-size: 11px;
+    }
+
+    .species-ranking-highlight {
+        min-height: 360px;
+        padding: 20px;
+    }
+
+    .species-highlight-image {
+        min-height: 240px;
     }
 }

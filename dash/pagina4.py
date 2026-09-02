@@ -102,13 +102,44 @@ def criar_grafico_ocorrencias_estado(df):
         }
     )
 
+    fig.update_traces(
+        marker_color="#58756A",
+        marker_line_color="#3E5A50",
+        marker_line_width=0.8,
+        hovertemplate="<b>%{y}</b><br>Ocorrências: %{x:,}<extra></extra>"
+    )
+
     fig.update_layout(
         template="plotly_white",
         margin=dict(
             l=20,
-            r=20,
+            r=30,
             t=60,
             b=20
+        ),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        font=dict(
+            family="Arial",
+            color="#24352D"
+        ),
+        xaxis=dict(
+            showgrid=True,
+            gridcolor="#E8EDEB",
+            zeroline=False,
+            title=None
+        ),
+        yaxis=dict(
+            showgrid=False,
+            title=None
+        ),
+        hoverlabel=dict(
+            bgcolor="#24352D",
+            font=dict(
+                color="white",
+                size=13
+            ),
+            bordercolor="#58756A"
         )
     )
 
@@ -147,13 +178,44 @@ def criar_grafico_especies_estado(df):
         }
     )
 
+    fig.update_traces(
+        marker_color="#58756A",
+        marker_line_color="#3E5A50",
+        marker_line_width=0.8,
+        hovertemplate="<b>%{y}</b><br>Espécies: %{x:,}<extra></extra>"
+    )
+
     fig.update_layout(
         template="plotly_white",
         margin=dict(
             l=20,
-            r=20,
+            r=30,
             t=60,
             b=20
+        ),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        font=dict(
+            family="Arial",
+            color="#24352D"
+        ),
+        xaxis=dict(
+            showgrid=True,
+            gridcolor="#E8EDEB",
+            zeroline=False,
+            title=None
+        ),
+        yaxis=dict(
+            showgrid=False,
+            title=None
+        ),
+        hoverlabel=dict(
+            bgcolor="#24352D",
+            font=dict(
+                color="white",
+                size=13
+            ),
+            bordercolor="#58756A"
         )
     )
 
@@ -225,28 +287,36 @@ def criar_mapa(df):
 # ============================================================
 
 layout = html.Div(
-
-    [
+    className="app-container",
+    children=[
 
         # ====================================================
-        # TÍTULO
+        # CABEÇALHO
         # ====================================================
 
-        html.Div(
-            [
+        html.Header(
+            className="hero",
+            children=[
 
-                html.H1(
-                    "Distribuição das Espécies",
-                    className="titulo-pagina"
-                ),
+                html.Div(
+                    className="hero-content",
+                    children=[
 
-                html.P(
-                    "Onde as espécies estão sendo registradas?",
-                    className="subtitulo-pagina"
+                        html.Div(
+                            "BIODATA",
+                            className="hero-label"
+                        ),
+
+                        html.H1(
+                            "Distribuição das Espécies"
+                        ),
+
+                        html.P(
+                            "Onde as espécies estão sendo registradas?"
+                        ),
+                    ]
                 )
-
-            ],
-            className="cabecalho-pagina"
+            ]
         ),
 
 
@@ -301,210 +371,218 @@ layout = html.Div(
 
 
         # ====================================================
-        # FILTROS
+        # CONTEÚDO
         # ====================================================
 
-        html.Div(
-            [
+        html.Main(
+            className="main-content",
+            children=[
+
+                # ====================================================
+                # FILTROS
+                # ====================================================
 
                 html.Div(
                     [
 
-                        html.Label(
-                            "Espécie",
-                            className="label-filtro"
-                        ),
+                        html.Div(
+                            [
 
-                        dcc.Dropdown(
-                            id="filtro-especie-pagina4",
-                            options=[
-                                {
-                                    "label": "Todas as espécies",
-                                    "value": "todas"
-                                }
-                            ] + [
-                                {
-                                    "label": (
-                                        f"{row['nome_cientifico']}"
-                                        + (
-                                            f" — {row['nome_popular']}"
-                                            if pd.notna(row["nome_popular"])
-                                            else ""
-                                        )
-                                    ),
-                                    "value": row["especie_id"]
-                                }
+                                html.Label(
+                                    "Espécie",
+                                    className="label-filtro"
+                                ),
 
-                                for _, row in df_especies.iterrows()
+                                dcc.Dropdown(
+                                    id="filtro-especie-pagina4",
+                                    options=[
+                                        {
+                                            "label": "Todas as espécies",
+                                            "value": "todas"
+                                        }
+                                    ] + [
+                                        {
+                                            "label": (
+                                                f"{row['nome_cientifico']}"
+                                                + (
+                                                    f" — {row['nome_popular']}"
+                                                    if pd.notna(row["nome_popular"])
+                                                    else ""
+                                                )
+                                            ),
+                                            "value": row["especie_id"]
+                                        }
+
+                                        for _, row in df_especies.iterrows()
+                                    ],
+                                    value="todas",
+                                    clearable=False
+                                )
+
                             ],
-                            value="todas",
-                            clearable=False
-                        )
-
-                    ],
-                    className="filtro-container"
-                ),
-
-
-                html.Div(
-                    [
-
-                        html.Label(
-                            "Grupo taxonômico",
-                            className="label-filtro"
+                            className="filtro-container"
                         ),
 
-                        dcc.Dropdown(
-                            id="filtro-grupo-pagina4",
-                            options=[
-                                {
-                                    "label": "Todos os grupos",
-                                    "value": "todos"
-                                }
-                            ] + [
-                                {
-                                    "label": row["grupo_taxonomico"],
-                                    "value": row["grupo_taxonomico"]
-                                }
 
-                                for _, row in df_grupos.iterrows()
+                        html.Div(
+                            [
+
+                                html.Label(
+                                    "Grupo taxonômico",
+                                    className="label-filtro"
+                                ),
+
+                                dcc.Dropdown(
+                                    id="filtro-grupo-pagina4",
+                                    options=[
+                                        {
+                                            "label": "Todos os grupos",
+                                            "value": "todos"
+                                        }
+                                    ] + [
+                                        {
+                                            "label": row["grupo_taxonomico"],
+                                            "value": row["grupo_taxonomico"]
+                                        }
+
+                                        for _, row in df_grupos.iterrows()
+                                    ],
+                                    value="todos",
+                                    clearable=False
+                                )
+
                             ],
-                            value="todos",
-                            clearable=False
+                            className="filtro-container"
                         )
 
                     ],
-                    className="filtro-container"
-                )
-
-            ],
-            className="filtros-pagina4"
-        ),
-
-
-        # ====================================================
-        # CARDS
-        # ====================================================
-
-        html.Div(
-            [
-
-                html.Div(
-                    [
-
-                        html.H3(
-                            "Ocorrências"
-                        ),
-
-                        html.H2(
-                            id="card-ocorrencias-pagina4"
-                        )
-
-                    ],
-                    className="card"
+                    className="filtros-pagina4"
                 ),
 
 
+                # ====================================================
+                # CARDS
+                # ====================================================
+
                 html.Div(
                     [
 
-                        html.H3(
-                            "Espécies"
+                        html.Div(
+                            [
+
+                                html.H3(
+                                    "Ocorrências"
+                                ),
+
+                                html.H2(
+                                    id="card-ocorrencias-pagina4"
+                                )
+
+                            ],
+                            className="card"
                         ),
 
-                        html.H2(
-                            id="card-especies-pagina4"
+
+                        html.Div(
+                            [
+
+                                html.H3(
+                                    "Espécies"
+                                ),
+
+                                html.H2(
+                                    id="card-especies-pagina4"
+                                )
+
+                            ],
+                            className="card"
+                        ),
+
+
+                        html.Div(
+                            [
+
+                                html.H3(
+                                    "Estados"
+                                ),
+
+                                html.H2(
+                                    id="card-estados-pagina4"
+                                )
+
+                            ],
+                            className="card"
                         )
 
                     ],
-                    className="card"
+                    className="cards-pagina4"
                 ),
 
 
-                html.Div(
-                    [
-
-                        html.H3(
-                            "Estados"
-                        ),
-
-                        html.H2(
-                            id="card-estados-pagina4"
-                        )
-
-                    ],
-                    className="card"
-                )
-
-            ],
-            className="cards-pagina4"
-        ),
-
-
-        # ====================================================
-        # MAPA
-        # ====================================================
-
-        html.Div(
-            [
-
-                dcc.Graph(
-                    id="mapa-brasil-pagina4",
-                    figure=criar_mapa(df_ocorrencias),
-                    config={
-                        "displayModeBar": True,
-                        "scrollZoom": True
-                    }
-                )
-
-            ],
-            className="grafico-container"
-        ),
-
-
-        # ====================================================
-        # GRÁFICOS INFERIORES
-        # ====================================================
-
-        html.Div(
-            [
+                # ====================================================
+                # MAPA
+                # ====================================================
 
                 html.Div(
                     [
 
                         dcc.Graph(
-                            id="grafico-ocorrencias-estado-pagina4",
-                            figure=criar_grafico_ocorrencias_estado(
-                                df_estados_ocorrencias
-                            )
+                            id="mapa-brasil-pagina4",
+                            figure=criar_mapa(df_ocorrencias),
+                            config={
+                                "displayModeBar": True,
+                                "scrollZoom": True
+                            }
                         )
 
                     ],
-                    className="grafico-container metade"
+                    className="grafico-container"
                 ),
 
+
+                # ====================================================
+                # GRÁFICOS INFERIORES
+                # ====================================================
 
                 html.Div(
                     [
 
-                        dcc.Graph(
-                            id="grafico-especies-estado-pagina4",
-                            figure=criar_grafico_especies_estado(
-                                df_estados_especies
-                            )
+                        html.Div(
+                            [
+
+                                dcc.Graph(
+                                    id="grafico-ocorrencias-estado-pagina4",
+                                    figure=criar_grafico_ocorrencias_estado(
+                                        df_estados_ocorrencias
+                                    )
+                                )
+
+                            ],
+                            className="grafico-container metade"
+                        ),
+
+
+                        html.Div(
+                            [
+
+                                dcc.Graph(
+                                    id="grafico-especies-estado-pagina4",
+                                    figure=criar_grafico_especies_estado(
+                                        df_estados_especies
+                                    )
+                                )
+
+                            ],
+                            className="grafico-container metade"
                         )
 
                     ],
-                    className="grafico-container metade"
+                    className="linha-graficos-pagina4"
                 )
 
-            ],
-            className="linha-graficos-pagina4"
+            ]
         )
-
-    ],
-
-    className="pagina4"
+    ]
 )
 
 

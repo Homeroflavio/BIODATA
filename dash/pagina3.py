@@ -1,11 +1,10 @@
 from dash import html, dcc
-import plotly.graph_objects as go
 
 from queries import (
     contar_especies_icmbio_avaliadas,
-    contar_especies_icmbio_ameacadas,
+    contar_ocorrencias_no_brasil,
     contar_dados_sensiveis_icmbio,
-    obter_especies_por_estado,
+    obter_top_10_especies_risco_brasil,
 )
 
 
@@ -14,72 +13,10 @@ from queries import (
 # ============================================================
 
 especies_avaliadas = contar_especies_icmbio_avaliadas()
-especies_ameacadas = contar_especies_icmbio_ameacadas()
+ocorrencias_brasil = contar_ocorrencias_no_brasil()
 dados_sensiveis = contar_dados_sensiveis_icmbio()
 
-df_estados = obter_especies_por_estado()
-
-
-# ============================================================
-# GRÁFICO — DISTRIBUIÇÃO POR ESTADO
-# ============================================================
-
-fig_estados = go.Figure()
-
-fig_estados.add_trace(
-    go.Bar(
-        x=df_estados["estado"],
-        y=df_estados["quantidade_especies"],
-        text=df_estados["quantidade_especies"],
-        textposition="outside",
-    )
-)
-
-fig_estados.update_layout(
-    title="Quantas espécies estão registradas em cada estado?",
-    xaxis_title="Estado / Província",
-    yaxis_title="Quantidade de espécies",
-    xaxis_tickangle=-45,
-    height=550,
-    margin=dict(
-        l=60,
-        r=30,
-        t=80,
-        b=140
-    ),
-)
-
-
-# ============================================================
-# GRÁFICO — ICMBio
-# ============================================================
-
-fig_icmbio = go.Figure()
-
-fig_icmbio.add_trace(
-    go.Bar(
-        x=[
-            "Espécies avaliadas",
-            "Espécies ameaçadas"
-        ],
-        y=[
-            especies_avaliadas,
-            especies_ameacadas
-        ],
-        text=[
-            especies_avaliadas,
-            especies_ameacadas
-        ],
-        textposition="outside",
-    )
-)
-
-fig_icmbio.update_layout(
-    title="Qual é a dimensão das avaliações de conservação no Brasil?",
-    xaxis_title="Indicador",
-    yaxis_title="Quantidade de espécies",
-    height=450,
-)
+df_top_especies = obter_top_10_especies_risco_brasil()
 
 
 # ============================================================
@@ -112,63 +49,62 @@ layout = html.Div(
                         ),
 
                         html.P(
-                            "Um olhar sobre a conservação e a "
-                            "distribuição das espécies no território brasileiro."
+                            "Um olhar sobre os dados de conservação e "
+                            "ocorrência de espécies no Brasil."
                         ),
                     ]
                 )
             ]
         ),
 
-        # ============================================================
+        # ====================================================
         # NAVEGAÇÃO
-        # ============================================================
+        # ====================================================
 
-html.Nav(
-    className="navigation",
-    children=[
+        html.Nav(
+            className="navigation",
+            children=[
 
-        dcc.Link(
-            "Sobre o projeto",
-            href="/",
-            className="nav-link"
+                dcc.Link(
+                    "Sobre o projeto",
+                    href="/",
+                    className="nav-link"
+                ),
+
+                dcc.Link(
+                    "Cenário de conservação",
+                    href="/conservacao",
+                    className="nav-link"
+                ),
+
+                dcc.Link(
+                    "Brasil",
+                    href="/brasil",
+                    className="nav-link active"
+                ),
+
+                dcc.Link(
+                    "Distribuição",
+                    href="/distribuicao",
+                    className="nav-link"
+                ),
+
+                html.Span(
+                    "Evolução",
+                    className="nav-link disabled"
+                ),
+
+                html.Span(
+                    "PANs",
+                    className="nav-link disabled"
+                ),
+
+                html.Span(
+                    "Espécies em destaque",
+                    className="nav-link disabled"
+                ),
+            ]
         ),
-
-        dcc.Link(
-            "Cenário de conservação",
-            href="/conservacao",
-            className="nav-link"
-        ),
-
-        dcc.Link(
-            "Brasil",
-            href="/brasil",
-            className="nav-link active"
-        ),
-
-        dcc.Link(
-            "Distribuição",
-            href="/distribuicao",
-            className="nav-link"
-        ),
-
-        # Futuras páginas continuam desabilitadas
-        html.Span(
-            "Evolução",
-            className="nav-link disabled"
-        ),
-
-        html.Span(
-            "PANs",
-            className="nav-link disabled"
-        ),
-
-        html.Span(
-            "Espécies em destaque",
-            className="nav-link disabled"
-        ),
-    ]
-),
 
         # ====================================================
         # CONTEÚDO
@@ -203,7 +139,7 @@ html.Nav(
                                         ),
 
                                         html.P(
-                                            "Conservação das espécies no Brasil",
+                                            "Conservação e ocorrência das espécies no Brasil",
                                             className="section-subtitle"
                                         ),
                                     ]
@@ -231,8 +167,8 @@ html.Nav(
                                 html.P(
                                     "A combinação dessas fontes permite "
                                     "observar tanto a situação de conservação "
-                                    "quanto a distribuição das espécies "
-                                    "registradas no território brasileiro."
+                                    "quanto os registros de ocorrência das "
+                                    "espécies no território brasileiro."
                                 ),
                             ]
                         ),
@@ -264,7 +200,7 @@ html.Nav(
                                         ),
 
                                         html.P(
-                                            "Principais indicadores do ICMBio",
+                                            "Principais indicadores dos dados brasileiros",
                                             className="section-subtitle"
                                         ),
                                     ]
@@ -288,7 +224,7 @@ html.Nav(
                                         ),
 
                                         html.Div(
-                                            "Espécies avaliadas",
+                                            "Espécies analisadas",
                                             className="stat-title"
                                         ),
 
@@ -304,19 +240,19 @@ html.Nav(
                                     children=[
 
                                         html.Div(
-                                            f"{especies_ameacadas:,}".replace(
+                                            f"{ocorrencias_brasil:,}".replace(
                                                 ",", "."
                                             ),
                                             className="stat-number"
                                         ),
 
                                         html.Div(
-                                            "Espécies ameaçadas",
+                                            "Ocorrências no Brasil",
                                             className="stat-title"
                                         ),
 
                                         html.Div(
-                                            "Espécies que constam na lista de ameaçadas",
+                                            "Registros de ocorrência do GBIF localizados no Brasil",
                                             className="stat-description"
                                         ),
                                     ]
@@ -350,7 +286,7 @@ html.Nav(
                 ),
 
                 # ------------------------------------------------
-                # 03 — ICMBio
+                # 03 — O QUE OS DADOS REVELAM
                 # ------------------------------------------------
 
                 html.Section(
@@ -370,21 +306,16 @@ html.Nav(
                                     children=[
 
                                         html.H2(
-                                            "O que os dados do ICMBio indicam?"
+                                            "O que os dados revelam sobre o Brasil?"
                                         ),
 
                                         html.P(
-                                            "Avaliação das espécies no Brasil",
+                                            "Volume de registros de ocorrência",
                                             className="section-subtitle"
                                         ),
                                     ]
                                 )
                             ]
-                        ),
-
-                        dcc.Graph(
-                            figure=fig_icmbio,
-                            className="chart"
                         ),
 
                         html.Div(
@@ -393,23 +324,25 @@ html.Nav(
 
                                 html.P(
                                     [
-                                        "O indicador de espécies ameaçadas "
-                                        "representa espécies que possuem "
-                                        "registro no ICMBio com ",
-                                        html.Strong(
-                                            "consta_lista_ameacada = TRUE"
-                                        ),
-                                        "."
+                                        "Os registros de ocorrência "
+                                        "disponíveis para o Brasil "
+                                        "representam um volume de dados "
+                                        "cerca de ",
+                                        html.Strong("20 vezes maior"),
+                                        " que o número de espécies analisadas."
                                     ]
                                 ),
 
                                 html.P(
                                     [
-                                        "Esses dados devem ser interpretados "
-                                        "como registros presentes na base "
-                                        "utilizada pelo projeto, e não como "
-                                        "uma estimativa absoluta de todas as "
-                                        "espécies existentes no Brasil."
+                                        "Isso representa aproximadamente ",
+                                        html.Strong(
+                                            "20 ocorrências registradas "
+                                            "para cada espécie analisada"
+                                        ),
+                                        ", criando uma base ampla para "
+                                        "contextualizar onde essas espécies "
+                                        "são registradas no território brasileiro."
                                     ]
                                 ),
                             ]
@@ -418,7 +351,7 @@ html.Nav(
                 ),
 
                 # ------------------------------------------------
-                # 04 — DISTRIBUIÇÃO
+                # 04 — RANKING DE ESPÉCIES
                 # ------------------------------------------------
 
                 html.Section(
@@ -426,33 +359,150 @@ html.Nav(
                     children=[
 
                         html.Div(
-    className="context-box",
-    children=[
+                            className="section-heading",
+                            children=[
 
-        html.P(
-            [
-                "A quantidade apresentada representa "
-                "espécies distintas registradas em "
-                "ocorrências do GBIF por estado ou província."
-            ]
-        ),
+                                html.Div(
+                                    "04",
+                                    className="section-number"
+                                ),
 
-        html.P(
-            "Os dados também podem apresentar variações "
-            "na forma como os locais são registrados. "
-            "Durante a etapa de transformação, esses valores "
-            "são padronizados para facilitar a análise e a "
-            "comparação entre os estados."
-        ),
+                                html.Div(
+                                    children=[
 
-        html.P(
-            "Além disso, um estado com mais registros não "
-            "significa necessariamente que possua maior "
-            "biodiversidade. A quantidade de registros também "
-            "depende do esforço e da disponibilidade de observações."
-        ),
-    ]
-)
+                                        html.H2(
+                                            "Quais espécies exigem maior atenção?"
+                                        ),
+
+                                        html.P(
+                                            "Espécies com maior nível de risco entre os registros encontrados no Brasil",
+                                            className="section-subtitle"
+                                        ),
+                                    ]
+                                )
+                            ]
+                        ),
+
+                        html.Div(
+                            className="context-box",
+                            children=[
+
+                                html.P(
+                                    [
+                                        "Entre as espécies com ocorrência "
+                                        "registrada no Brasil, o ranking "
+                                        "abaixo destaca aquelas classificadas "
+                                        "nos maiores níveis de risco de extinção."
+                                    ]
+                                ),
+
+                                html.P(
+                                    [
+                                        "A classificação considera o nível "
+                                        "de risco registrado na base de "
+                                        "conservação, priorizando as categorias "
+                                        "de maior preocupação."
+                                    ]
+                                ),
+                            ]
+                        ),
+
+                        html.Div(
+                            className="species-ranking-container",
+                            children=[
+
+                                html.Div(
+                                    className="species-ranking-list",
+                                    children=[
+
+                                        html.Div(
+                                            [
+                                                html.Div(
+                                                    str(i + 1).zfill(2),
+                                                    className="species-ranking-number"
+                                                ),
+
+                                                html.Div(
+                                                    [
+                                                        html.Div(
+                                                            row["nome_popular"]
+                                                            if row["nome_popular"]
+                                                            else "Nome popular não informado",
+                                                            className="species-ranking-name"
+                                                        ),
+
+                                                        html.Div(
+                                                            row["nome_cientifico"],
+                                                            className="species-ranking-scientific"
+                                                        ),
+                                                    ],
+                                                    className="species-ranking-info"
+                                                ),
+
+                                                html.Div(
+                                                    row["categoria_risco"],
+                                                    className="species-ranking-category"
+                                                ),
+                                            ],
+                                            className="species-ranking-item"
+                                        )
+                                        for i, row in df_top_especies.iterrows()
+                                    ]
+                                ),
+
+                                html.Div(
+                                    className="species-ranking-highlight",
+                                    children=[
+
+                                        html.Div(
+                                            "ESPÉCIE EM DESTAQUE",
+                                            className="species-highlight-label"
+                                        ),
+
+                                        html.Div(
+                                            (
+                                                df_top_especies.iloc[0]["nome_popular"]
+                                                if len(df_top_especies) > 0
+                                                and df_top_especies.iloc[0]["nome_popular"]
+                                                else "Nome popular não informado"
+                                            ),
+                                            className="species-highlight-name"
+                                        ),
+
+                                        html.Div(
+                                            (
+                                                df_top_especies.iloc[0]["nome_cientifico"]
+                                                if len(df_top_especies) > 0
+                                                else ""
+                                            ),
+                                            className="species-highlight-scientific"
+                                        ),
+
+                                        html.Div(
+                                            (
+                                                df_top_especies.iloc[0]["categoria_risco"]
+                                                if len(df_top_especies) > 0
+                                                else ""
+                                            ),
+                                            className="species-highlight-category"
+                                        ),
+
+                                        html.Div(
+                                            html.Img(
+                                                src="/assets/arara-pagina3.jfif",
+                                                style={
+                                                    "width": "100%",
+                                                    "height": "100%",
+                                                    "objectFit": "cover",
+                                                    "display": "block"
+                                                }
+                                            ),
+                                            className="species-highlight-image"
+                                        ),
+                                    ]
+                                ),
+                            ]
+                        ),
                     ]
                 ),
 

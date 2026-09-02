@@ -323,6 +323,107 @@ def contar_dados_sensiveis_icmbio():
     """)
 
 
+def contar_ocorrencias_no_brasil():
+    """
+    Conta quantos registros de ocorrência do GBIF
+    estão localizados no Brasil.
+    """
+
+    return executar_query("""
+        SELECT COUNT(*)
+        FROM fato_ocorrencia_gbif fo
+
+        JOIN dim_local dl
+            ON fo.local_id = dl.id
+
+        WHERE LOWER(TRIM(dl.pais)) = 'brazil';
+    """)
+
+
+def obter_top_10_especies_risco_brasil():
+    """
+    Retorna as 10 espécies com maior nível de risco
+    que possuem ocorrência registrada no Brasil.
+
+    Considera somente a avaliação IUCN marcada como atual.
+    Espécies sem nome popular são ignoradas.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                de.nome_cientifico,
+                de.nome_popular,
+                a.categoria_risco_codigo AS categoria_risco
+
+            FROM fato_avaliacao_iucn a
+
+            JOIN dim_especie de
+                ON a.especie_id = de.id
+
+            WHERE a.e_avaliacao_atual = TRUE
+
+              AND de.nome_popular IS NOT NULL
+              AND TRIM(de.nome_popular) <> ''
+
+              AND EXISTS (
+                    SELECT 1
+
+                    FROM fato_ocorrencia_gbif fo
+
+                    JOIN dim_local dl
+                        ON fo.local_id = dl.id
+
+                    WHERE fo.especie_id = a.especie_id
+
+                      AND LOWER(TRIM(dl.pais)) = 'brazil'
+              )
+
+            GROUP BY
+                de.id,
+                de.nome_cientifico,
+                de.nome_popular,
+                a.categoria_risco_codigo
+
+            ORDER BY
+                CASE a.categoria_risco_codigo
+                    WHEN 'EX' THEN 1
+                    WHEN 'EW' THEN 2
+                    WHEN 'CR' THEN 3
+                    WHEN 'EN' THEN 4
+                    WHEN 'VU' THEN 5
+                    WHEN 'NT' THEN 6
+                    WHEN 'LC' THEN 7
+                    WHEN 'DD' THEN 8
+                    WHEN 'NE' THEN 9
+                    ELSE 10
+                END,
+
+                de.nome_cientifico
+
+            LIMIT 10;
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conexao
+        )
+
+        df["categoria_risco"] = (
+            df["categoria_risco"]
+            .map(TRADUCAO_CATEGORIAS)
+            .fillna(df["categoria_risco"])
+        )
+
+        return df
+
+    finally:
+        conexao.close()
+
+
 def obter_especies_por_estado():
     """
     Retorna a quantidade de espécies distintas registradas
@@ -695,6 +796,331 @@ def obter_grupos_taxonomicos():
             query,
             conexao
         )
+
+    finally:
+        conexao.close()
+
+
+# ============================================================
+# PÁGINA 5 — EVOLUÇÃO
+# ============================================================
+
+def obter_evolucao_ocorrencias_gbif():
+    """
+    Retorna a quantidade de ocorrências GBIF
+    registradas em cada ano.
+
+    Considera somente ocorrências que possuem
+    data de observação válida.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                EXTRACT(
+                    YEAR FROM data_observacao
+                )::INTEGER AS ano,
+
+                COUNT(*) AS quantidade_ocorrencias
+
+            FROM fato_ocorrencia_gbif
+
+            WHERE data_observacao IS NOT NULL
+
+            GROUP BY
+                EXTRACT(YEAR FROM data_observacao)
+
+            ORDER BY
+                ano;
+        """
+
+        return pd.read_sql_query(
+            query,
+            conexao
+        )
+
+    finally:
+        conexao.close()
+
+
+def obter_evolucao_avaliacoes_por_ano():
+    """
+    Retorna a quantidade de avaliações IUCN realizadas
+    em cada ano.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                ano_publicacao AS ano,
+                COUNT(*) AS quantidade_avaliacoes
+
+            FROM fato_avaliacao_iucn
+
+            WHERE ano_publicacao IS NOT NULL
+
+            GROUP BY
+                ano_publicacao
+
+            ORDER BY
+                ano_publicacao;
+        """
+
+        return pd.read_sql_query(
+            query,
+            conexao
+        )
+
+    finally:
+        conexao.close()
+
+
+def obter_evolucao_especies_por_ano():
+    """
+    Retorna a quantidade de espécies distintas avaliadas
+    pela IUCN em cada ano.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                ano_publicacao AS ano,
+                COUNT(DISTINCT especie_id)
+                    AS quantidade_especies
+
+            FROM fato_avaliacao_iucn
+
+            WHERE ano_publicacao IS NOT NULL
+
+            GROUP BY
+                ano_publicacao
+
+            ORDER BY
+                ano_publicacao;
+        """
+
+        return pd.read_sql_query(
+            query,
+            conexao
+        )
+
+    finally:
+        conexao.close()
+
+
+def obter_evolucao_por_categoria():
+    """
+    Retorna a evolução da quantidade de espécies avaliadas
+    por categoria de risco ao longo dos anos.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                a.ano_publicacao AS ano,
+                a.categoria_risco_codigo AS codigo,
+                COUNT(DISTINCT a.especie_id)
+                    AS quantidade_especies
+
+            FROM fato_avaliacao_iucn a
+
+            WHERE a.ano_publicacao IS NOT NULL
+
+              AND a.categoria_risco_codigo IN (
+                    'EX',
+                    'EW',
+                    'CR',
+                    'EN',
+                    'VU',
+                    'NT',
+                    'LC',
+                    'DD',
+                    'NE'
+              )
+
+            GROUP BY
+                a.ano_publicacao,
+                a.categoria_risco_codigo
+
+            ORDER BY
+                a.ano_publicacao,
+                a.categoria_risco_codigo;
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conexao
+        )
+
+        df["nome_portugues"] = (
+            df["codigo"]
+            .map(TRADUCAO_CATEGORIAS)
+            .fillna(df["codigo"])
+        )
+
+        return df
+
+    finally:
+        conexao.close()
+
+
+def contar_anos_avaliacoes_iucn():
+    """
+    Retorna a quantidade de anos distintos com avaliações IUCN.
+    """
+
+    return executar_query("""
+        SELECT COUNT(DISTINCT ano_publicacao)
+        FROM fato_avaliacao_iucn
+        WHERE ano_publicacao IS NOT NULL;
+    """)
+
+
+def obter_periodo_avaliacoes_iucn():
+    """
+    Retorna o primeiro e o último ano das avaliações IUCN.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                MIN(ano_publicacao) AS primeiro_ano,
+                MAX(ano_publicacao) AS ultimo_ano
+
+            FROM fato_avaliacao_iucn
+
+            WHERE ano_publicacao IS NOT NULL;
+        """
+
+        return pd.read_sql_query(
+            query,
+            conexao
+        )
+
+    finally:
+        conexao.close()
+
+
+def obter_periodo_ocorrencias_gbif():
+    """
+    Retorna o primeiro e o último ano com ocorrência
+    registrada no GBIF.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                MIN(
+                    EXTRACT(
+                        YEAR FROM data_observacao
+                    )::INTEGER
+                ) AS primeiro_ano,
+
+                MAX(
+                    EXTRACT(
+                        YEAR FROM data_observacao
+                    )::INTEGER
+                ) AS ultimo_ano
+
+            FROM fato_ocorrencia_gbif
+
+            WHERE data_observacao IS NOT NULL;
+        """
+
+        return pd.read_sql_query(
+            query,
+            conexao
+        )
+
+    finally:
+        conexao.close()
+
+
+def obter_crescimento_medio_ocorrencias_gbif():
+    """
+    Calcula a variação percentual média anual das ocorrências
+    registradas no GBIF.
+
+    O cálculo considera somente anos consecutivos que possuem
+    registros nos dois anos comparados e ignora anos cujo
+    valor anterior seja zero.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            WITH ocorrencias_anuais AS (
+
+                SELECT
+                    EXTRACT(
+                        YEAR FROM data_observacao
+                    )::INTEGER AS ano,
+
+                    COUNT(*) AS quantidade_ocorrencias
+
+                FROM fato_ocorrencia_gbif
+
+                WHERE data_observacao IS NOT NULL
+
+                GROUP BY
+                    EXTRACT(YEAR FROM data_observacao)
+            ),
+
+            variacoes AS (
+
+                SELECT
+                    ano,
+                    quantidade_ocorrencias,
+
+                    LAG(quantidade_ocorrencias)
+                        OVER (
+                            ORDER BY ano
+                        ) AS ocorrencias_ano_anterior
+
+                FROM ocorrencias_anuais
+            )
+
+            SELECT
+                AVG(
+                    (
+                        (
+                            quantidade_ocorrencias
+                            - ocorrencias_ano_anterior
+                        )::NUMERIC
+                        / NULLIF(
+                            ocorrencias_ano_anterior,
+                            0
+                        )
+                    ) * 100
+                ) AS crescimento_medio_percentual
+
+            FROM variacoes
+
+            WHERE ocorrencias_ano_anterior IS NOT NULL
+              AND ocorrencias_ano_anterior > 0;
+        """
+
+        return executar_query(query)
 
     finally:
         conexao.close()
