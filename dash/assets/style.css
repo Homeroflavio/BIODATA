@@ -940,13 +940,6 @@ a {
    PÁGINA 2 — VISUAL PREMIUM DOS GRÁFICOS
    ============================================================ */
 
-/*
-   IMPORTANTE:
-   Estas regras são exclusivas dos gráficos da página 2.
-   Não alteram os outros gráficos do projeto.
-*/
-
-
 .biodata-bar-graph,
 .biodata-donut-graph {
     border-radius: 18px;
@@ -974,10 +967,9 @@ a {
 }
 
 
-/*
-   Pequena profundidade visual.
-   Não é uma sombra exagerada para não parecer card de PowerPoint.
-*/
+/* ============================================================
+   PROFUNDIDADE VISUAL
+   ============================================================ */
 
 .biodata-bar-graph,
 .biodata-donut-graph {
@@ -1068,13 +1060,6 @@ a {
         opacity 0.35s ease;
 }
 
-
-/*
-   Brilho extremamente discreto.
-   O JavaScript vai controlar o destaque individual
-   das barras durante o hover.
-*/
-
 .biodata-bar-graph .barlayer .trace .point:hover path {
     filter:
         drop-shadow(0 4px 7px rgba(18, 55, 42, 0.20));
@@ -1098,15 +1083,6 @@ a {
 /* ============================================================
    ANIMAÇÃO DE ENTRADA — ESTADO INICIAL
    ============================================================ */
-
-/*
-   O JavaScript da página 2 adicionará a classe
-   .biodata-chart-visible quando o gráfico entrar
-   no viewport.
-
-   Assim evitamos animar imediatamente ao carregar
-   a página.
-*/
 
 .biodata-bar-graph.chart-entering,
 .biodata-donut-graph.chart-entering {
@@ -1153,6 +1129,173 @@ a {
 
 
 /* ============================================================
+   PÁGINA 5 — MARCOS
+   ============================================================ */
+
+/*
+   Os marcos NÃO pertencem mais ao Plotly.
+
+   Agora são HTML puro e o CSS controla:
+   - largura
+   - espaçamento
+   - alinhamento
+   - responsividade
+
+   Assim eles não dependem de coordenadas x/y
+   internas do SVG do Plotly.
+*/
+
+.marcos-ocorrencias {
+    width: 100%;
+    max-width: 100%;
+    min-height: 66px;
+
+    display: grid;
+    grid-template-columns: 1.15fr repeat(4, 1fr);
+    align-items: center;
+
+    margin: 0 0 18px;
+    padding: 9px 22px;
+
+    background: #12372a;
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 18px rgba(18, 55, 42, 0.15),
+        0 2px 5px rgba(18, 55, 42, 0.08);
+}
+
+
+/* ============================================================
+   TÍTULO DOS MARCOS
+   ============================================================ */
+
+.marcos-titulo {
+    color: white;
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+
+    text-align: left;
+}
+
+
+/* ============================================================
+   ITEM DOS MARCOS
+   ============================================================ */
+
+.marco-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+
+    transform: translateY(4px);
+}
+
+
+/* ============================================================
+   VALOR DO MARCO
+   ============================================================ */
+
+.marco-valor {
+    color: white;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.15;
+
+    position: relative;
+    top:5px;
+}
+
+
+/* ============================================================
+   ANO DO MARCO
+   ============================================================ */
+
+.marco-ano {
+    margin-top: 3px;
+
+    color: rgba(255, 255, 255, 0.78);
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+
+/* ============================================================
+   GRÁFICO DA PÁGINA 5
+   ============================================================ */
+
+/*
+   O gráfico recebe espaço suficiente para que o slider
+   e os botões permaneçam dentro da área visual do gráfico.
+*/
+
+.pagina5-grafico {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE DOS MARCOS — CELULAR
+   ============================================================ */
+
+@media (max-width: 650px) {
+
+    .marcos-ocorrencias {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+
+        gap: 10px;
+
+        padding: 12px 10px;
+
+        min-height: auto;
+    }
+
+    .marcos-titulo {
+        grid-column: 1 / -1;
+
+        text-align: center;
+
+        margin-bottom: 3px;
+    }
+
+    .marco-valor {
+        font-size: 11px;
+    }
+
+    .marco-ano {
+        font-size: 8px;
+    }
+
+}
+
+
+/* ============================================================
    RODAPÉ
    ============================================================ */
 
@@ -1195,8 +1338,6 @@ a {
     .filtros-pagina4 {
         grid-template-columns: 1fr;
     }
-
-    /* Ranking da Página 3 */
 
     .species-ranking-container {
         grid-template-columns: 1fr;
@@ -1280,12 +1421,6 @@ a {
         padding: 4px;
     }
 
-    /*
-       Página 2 em telas pequenas:
-       reduzimos um pouco a profundidade para
-       manter os gráficos leves.
-    */
-
     .biodata-bar-graph,
     .biodata-donut-graph {
         filter: none;
@@ -1330,4 +1465,497 @@ a {
     .species-highlight-image {
         min-height: 240px;
     }
+
+
+    /* ========================================================
+       PÁGINA 5 — GRÁFICO
+       ======================================================== */
+
+    .pagina5-grafico {
+        margin-bottom: 15px;
+    }
+
+}
+
+/* ============================================================
+   PÁGINA 5 — ESPAÇAMENTO ENTRE BLOCOS
+   ============================================================ */
+
+.main-content .section > * + * {
+    margin-top: 22px;
+}
+
+/* ============================================================
+   PÁGINA 6 — PANs
+   ============================================================ */
+
+.pagina6 {
+    min-height: calc(100vh - 68px);
+    background: #f4f6f5;
+}
+
+
+.pagina6 .filtro-container {
+    max-width: 1200px;
+    margin: 0 auto 22px;
+    background: white;
+    border: 1px solid #dfe6e1;
+    border-radius: 12px;
+    padding: 17px 18px 13px;
+    box-shadow: 0 3px 12px rgba(24, 45, 35, 0.035);
+}
+
+
+.pagina6 .pan-detalhes {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 28px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+}
+
+
+.pagina6 .pan-detalhes-nome {
+    color: #12372a;
+    font-size: 25px;
+    font-weight: 750;
+    line-height: 1.3;
+}
+
+
+.pagina6 .pan-detalhes-completo {
+    margin-top: 7px;
+    color: #7b8780;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+.pagina6 .pan-detalhes-resumo {
+    margin-top: 18px;
+    color: #286144;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+
+.pagina6 .pan-detalhes-contexto {
+    margin-top: 10px;
+    color: #68746d;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+.pagina6 .grafico-container {
+    max-width: 1200px;
+    margin: 0 auto 22px;
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 10px;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+    overflow: hidden;
+}
+
+
+.pagina6 .context-box {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ============================================================
+   PÁGINA 7 — ESPÉCIES SELECIONADAS
+   ============================================================ */
+
+.pagina7 {
+    background: #f4f6f5;
+}
+
+
+/* ============================================================
+   PÁGINA 7 — FILTRO DE ESPÉCIES
+   ============================================================ */
+
+.pagina7 .filtro-container {
+    max-width: 100%;
+    margin: 0;
+    background: white;
+    border: 1px solid #dfe6e1;
+    border-radius: 13px;
+    padding: 18px 20px 14px;
+    box-shadow: 0 3px 12px rgba(24, 45, 35, 0.035);
+}
+
+
+/* ============================================================
+   PÁGINA 7 — APRESENTAÇÃO DA ESPÉCIE
+   ============================================================ */
+
+.pagina7 .especie-apresentacao {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 22px;
+    align-items: stretch;
+}
+
+
+/* ============================================================
+   FOTO PRINCIPAL
+   ============================================================ */
+
+.pagina7 .especie-foto-principal {
+    min-height: 460px;
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+
+.pagina7 .especie-imagem-principal {
+    width: 100%;
+    height: 100%;
+    min-height: 460px;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* ============================================================
+   CARD DE INFORMAÇÕES
+   ============================================================ */
+
+.pagina7 .especie-informacoes-principais {
+    min-width: 0;
+}
+
+
+.pagina7 .especie-card-informacoes {
+    height: 100%;
+    min-height: 460px;
+
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 14px;
+
+    padding: 30px;
+
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* ============================================================
+   NOME POPULAR
+   ============================================================ */
+
+.pagina7 .especie-nome-popular {
+    color: #12372a;
+    font-size: 32px;
+    font-weight: 750;
+    line-height: 1.15;
+    letter-spacing: -0.8px;
+}
+
+
+/* ============================================================
+   NOME CIENTÍFICO
+   ============================================================ */
+
+.pagina7 .especie-nome-cientifico {
+    margin-top: 8px;
+    color: #7b8780;
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   INFORMAÇÕES
+   ============================================================ */
+
+.pagina7 .especie-informacoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+
+.pagina7 .especie-informacao {
+    padding: 15px;
+
+    background: #f7f9f8;
+    border: 1px solid #e5ebe7;
+    border-radius: 10px;
+}
+
+
+.pagina7 .especie-informacao-titulo {
+    color: #7a857f;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+
+.pagina7 .especie-informacao-valor {
+    margin-top: 6px;
+    color: #234a36;
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.35;
+}
+
+
+/* ============================================================
+   PÁGINA 7 — INDICADORES
+   ============================================================ */
+
+.pagina7 #especie-indicadores {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+
+.pagina7 #especie-indicadores .stat-card {
+    min-height: 155px;
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+    padding: 23px 20px;
+    box-shadow: 0 3px 12px rgba(24, 45, 35, 0.035);
+}
+
+
+/* ============================================================
+   LEITURA DOS DADOS
+   ============================================================ */
+
+.pagina7 #especie-leitura-dados {
+    margin-top: 18px;
+}
+
+
+/* ============================================================
+   PÁGINA 7 — GALERIA
+   ============================================================ */
+
+.pagina7 .especie-galeria {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+
+.pagina7 .especie-foto-secundaria {
+    min-height: 320px;
+
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 14px rgba(24, 45, 35, 0.04);
+
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+
+.pagina7 .especie-imagem-secundaria {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* ============================================================
+   ESTADO VAZIO
+   ============================================================ */
+
+.pagina7 .especie-vazio {
+    min-height: 120px;
+
+    background: white;
+    border: 1px solid #e0e6e2;
+    border-radius: 13px;
+
+    padding: 30px;
+
+    color: #7b8780;
+    font-size: 14px;
+    line-height: 1.7;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   CONTEXTO DA PÁGINA 7
+   ============================================================ */
+
+.pagina7 .context-box {
+    width: 100%;
+}
+
+
+/* ============================================================
+   TRANSIÇÃO DAS FOTOS
+   ============================================================ */
+
+.pagina7 .especie-foto-principal,
+.pagina7 .especie-foto-secundaria {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.pagina7 .especie-foto-principal:hover,
+.pagina7 .especie-foto-secundaria:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 28px rgba(24, 45, 35, 0.08);
+}
+
+
+/* ============================================================
+   PÁGINA 7 — TABLET
+   ============================================================ */
+
+@media (max-width: 1000px) {
+
+    .pagina7 .especie-apresentacao {
+        grid-template-columns: 1fr;
+    }
+
+    .pagina7 .especie-foto-principal {
+        min-height: 420px;
+    }
+
+    .pagina7 .especie-imagem-principal {
+        min-height: 420px;
+    }
+
+    .pagina7 .especie-card-informacoes {
+        min-height: auto;
+    }
+
+}
+
+
+/* ============================================================
+   PÁGINA 7 — CELULAR
+   ============================================================ */
+
+@media (max-width: 650px) {
+
+    .pagina7 .especie-apresentacao {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+
+    /* FOTO PRINCIPAL */
+
+    .pagina7 .especie-foto-principal {
+        min-height: 300px;
+        border-radius: 12px;
+    }
+
+    .pagina7 .especie-imagem-principal {
+        min-height: 300px;
+    }
+
+
+    /* INFORMAÇÕES */
+
+    .pagina7 .especie-card-informacoes {
+        min-height: auto;
+        padding: 23px 20px;
+    }
+
+    .pagina7 .especie-nome-popular {
+        font-size: 27px;
+    }
+
+    .pagina7 .especie-nome-cientifico {
+        font-size: 13px;
+    }
+
+
+    /* INFORMAÇÕES INTERNAS */
+
+    .pagina7 .especie-informacoes {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+
+    /* INDICADORES */
+
+    .pagina7 #especie-indicadores {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* GALERIA */
+
+    .pagina7 .especie-galeria {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .pagina7 .especie-foto-secundaria {
+        min-height: 260px;
+    }
+
+    .pagina7 .especie-imagem-secundaria {
+        height: 260px;
+    }
+
+
+    /* HOVER */
+
+    .pagina7 .especie-foto-principal:hover,
+    .pagina7 .especie-foto-secundaria:hover {
+        transform: none;
+    }
+
+}
+
+/* ============================================================
+   PÁGINA 7 — CATEGORIA IUCN
+   ============================================================ */
+
+.pagina7 .especie-categoria-indicador {
+    font-size: 18px;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: normal;
 }

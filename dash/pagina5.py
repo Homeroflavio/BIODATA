@@ -2,13 +2,12 @@ import dash
 from dash import html, dcc
 import plotly.graph_objects as go
 import pandas as pd
+import math
 
 from queries import (
     obter_evolucao_ocorrencias_gbif,
     obter_evolucao_especies_por_ano,
-    contar_anos_avaliacoes_iucn,
-    obter_periodo_avaliacoes_iucn,
-    obter_crescimento_medio_ocorrencias_gbif
+    contar_ocorrencias_gbif
 )
 
 
@@ -19,31 +18,7 @@ from queries import (
 df_ocorrencias = obter_evolucao_ocorrencias_gbif()
 df_especies = obter_evolucao_especies_por_ano()
 
-quantidade_anos = contar_anos_avaliacoes_iucn()
-df_periodo = obter_periodo_avaliacoes_iucn()
-
-crescimento_medio_ocorrencias = (
-    obter_crescimento_medio_ocorrencias_gbif()
-)
-
-
-# ============================================================
-# PERÍODO ANALISADO
-# ============================================================
-
-primeiro_ano = (
-    int(df_periodo.iloc[0]["primeiro_ano"])
-    if not df_periodo.empty
-    and pd.notna(df_periodo.iloc[0]["primeiro_ano"])
-    else "-"
-)
-
-ultimo_ano = (
-    int(df_periodo.iloc[0]["ultimo_ano"])
-    if not df_periodo.empty
-    and pd.notna(df_periodo.iloc[0]["ultimo_ano"])
-    else "-"
-)
+total_ocorrencias_gbif = contar_ocorrencias_gbif()
 
 
 # ============================================================
@@ -58,21 +33,28 @@ if not df_especies.empty:
 
 
 # ============================================================
-# CÁLCULO DA VARIAÇÃO MÉDIA DAS OCORRÊNCIAS
+# PERÍODO ANALISADO — GBIF
 # ============================================================
 
-if (
-    crescimento_medio_ocorrencias is not None
-    and pd.notna(crescimento_medio_ocorrencias)
-):
+if not df_ocorrencias.empty:
 
-    crescimento_medio_ocorrencias = float(
-        crescimento_medio_ocorrencias
+    quantidade_anos = int(
+        df_ocorrencias["ano"].nunique()
+    )
+
+    primeiro_ano = int(
+        df_ocorrencias["ano"].min()
+    )
+
+    ultimo_ano = int(
+        df_ocorrencias["ano"].max()
     )
 
 else:
 
-    crescimento_medio_ocorrencias = None
+    quantidade_anos = 0
+    primeiro_ano = "-"
+    ultimo_ano = "-"
 
 
 # ============================================================
@@ -124,6 +106,180 @@ else:
 
 
 # ============================================================
+# MARCOS DE OCORRÊNCIAS
+# ============================================================
+
+marcos_ocorrencias = [
+    10,
+    100,
+    1000,
+    10000
+]
+
+anos_marcos = {}
+
+for marco in marcos_ocorrencias:
+
+    if not df_ocorrencias.empty:
+
+        registros_marco = df_ocorrencias[
+            df_ocorrencias["quantidade_ocorrencias"] >= marco
+        ]
+
+        if not registros_marco.empty:
+
+            anos_marcos[marco] = int(
+                registros_marco.iloc[0]["ano"]
+            )
+
+        else:
+
+            anos_marcos[marco] = "-"
+
+    else:
+
+        anos_marcos[marco] = "-"
+
+
+# ============================================================
+# FUNÇÃO — ANOTAÇÕES DOS MARCOS
+# ============================================================
+
+def criar_anotacoes_marcos(ano_atual=None):
+
+    anotacoes = []
+
+    # --------------------------------------------------------
+    # POSIÇÕES FIXAS E COMPACTAS
+    # --------------------------------------------------------
+
+    posicoes = {
+        10: 0.19,
+        100: 0.29,
+        1000: 0.39,
+        10000: 0.49
+    }
+
+    # --------------------------------------------------------
+    # TÍTULO "MARCOS"
+    # --------------------------------------------------------
+
+    anotacoes.append(
+        dict(
+            x=0.075,
+            y=0.94,
+            xref="paper",
+            yref="paper",
+
+            text="<b>MARCOS:</b>",
+
+            showarrow=False,
+
+            font=dict(
+                family="Inter, Segoe UI, Arial, sans-serif",
+                size=13,
+                color="white"
+            ),
+
+            align="left",
+
+            xanchor="left",
+            yanchor="middle"
+        )
+    )
+
+    # --------------------------------------------------------
+    # MARCOS ATINGIDOS
+    # --------------------------------------------------------
+
+    if ano_atual is not None:
+
+        for marco in marcos_ocorrencias:
+
+            ano_marco = anos_marcos.get(marco)
+
+            if (
+                ano_marco != "-"
+                and ano_atual >= ano_marco
+            ):
+
+                if marco == 1000:
+                    texto_marco = "1.000"
+                elif marco == 10000:
+                    texto_marco = "10.000"
+                else:
+                    texto_marco = f"{marco:,}".replace(",", ".")
+
+                anotacoes.append(
+                    dict(
+                        x=posicoes[marco],
+                        y=0.947,
+                        xref="paper",
+                        yref="paper",
+
+                        text=(
+                            f"<b>{texto_marco}</b>"
+                            f"<br>"
+                            f"<span style='font-size:10px; "
+                            f"font-weight:400; opacity:0.82'>"
+                            f"{ano_marco}"
+                            f"</span>"
+                        ),
+
+                        showarrow=False,
+
+                        font=dict(
+                            family="Inter, Segoe UI, Arial, sans-serif",
+                            size=13,
+                            color="white"
+                        ),
+
+                        align="center",
+
+                        xanchor="center",
+                        yanchor="middle"
+                    )
+                )
+
+    return anotacoes
+
+
+# ============================================================
+# PAINEL DOS MARCOS
+# ============================================================
+
+shape_marcos = dict(
+
+    type="path",
+
+    xref="paper",
+    yref="paper",
+
+    path=(
+        "M 0.055,0.85 "
+        "L 0.515,0.85 "
+        "Q 0.525,0.85 0.525,0.865 "
+        "L 0.525,0.975 "
+        "Q 0.525,0.99 0.515,0.99 "
+        "L 0.055,0.99 "
+        "Q 0.045,0.99 0.045,0.975 "
+        "L 0.045,0.865 "
+        "Q 0.045,0.85 0.055,0.85 "
+        "Z"
+    ),
+
+    fillcolor="#12372A",
+
+    line=dict(
+        color="#12372A",
+        width=1
+    ),
+
+    layer="above"
+)
+
+
+# ============================================================
 # GRÁFICO — OCORRÊNCIAS GBIF POR ANO
 # ============================================================
 
@@ -132,10 +288,54 @@ fig_ocorrencias = go.Figure()
 
 if not df_ocorrencias.empty:
 
+    # --------------------------------------------------------
+    # LIMITES FIXOS PARA MOSTRAR TODA A SÉRIE
+    # --------------------------------------------------------
+
+    menor_ano_ocorrencias = int(
+        df_ocorrencias["ano"].min()
+    )
+
+    maior_ano_ocorrencias = int(
+        df_ocorrencias["ano"].max()
+    )
+
+    menor_ocorrencia = max(
+        1,
+        int(df_ocorrencias["quantidade_ocorrencias"].min())
+    )
+
+    maior_ocorrencia = int(
+        df_ocorrencias["quantidade_ocorrencias"].max()
+    )
+
+    margem_anos = max(
+        8,
+        int(
+            (maior_ano_ocorrencias - menor_ano_ocorrencias) * 0.03
+        )
+    )
+
+    limite_inferior_x = (
+        menor_ano_ocorrencias - margem_anos
+    )
+
+    limite_superior_x = (
+        maior_ano_ocorrencias + margem_anos
+    )
+
+    limite_superior_y = maior_ocorrencia * 1.8
+
+    # --------------------------------------------------------
+    # TRAÇO INICIAL
+    # --------------------------------------------------------
+
+    primeiro_registro = df_ocorrencias.iloc[0]
+
     fig_ocorrencias.add_trace(
         go.Scatter(
-            x=df_ocorrencias["ano"],
-            y=df_ocorrencias["quantidade_ocorrencias"],
+            x=[primeiro_registro["ano"]],
+            y=[primeiro_registro["quantidade_ocorrencias"]],
             mode="lines+markers",
             name="Ocorrências",
             line=dict(
@@ -143,7 +343,7 @@ if not df_ocorrencias.empty:
                 width=3
             ),
             marker=dict(
-                size=7,
+                size=8,
                 color="#24352D",
                 line=dict(
                     color="white",
@@ -158,43 +358,281 @@ if not df_ocorrencias.empty:
         )
     )
 
+    # --------------------------------------------------------
+    # FRAMES DA ANIMAÇÃO
+    # --------------------------------------------------------
 
-fig_ocorrencias.update_layout(
-    template="plotly_white",
-    height=430,
-    title="Como o volume de registros de ocorrência mudou ao longo do tempo?",
-    margin=dict(
-        l=30,
-        r=30,
-        t=70,
-        b=40
-    ),
-    plot_bgcolor="white",
-    paper_bgcolor="white",
-    font=dict(
-        family="Arial",
-        color="#24352D"
-    ),
-    xaxis=dict(
-        title="Ano",
-        showgrid=False,
-        zeroline=False
-    ),
-    yaxis=dict(
-        title="Quantidade de ocorrências",
-        showgrid=True,
-        gridcolor="#E8EDEB",
-        zeroline=False
-    ),
-    hoverlabel=dict(
-        bgcolor="#24352D",
-        font=dict(
-            color="white",
-            size=13
+    frames = []
+
+    for i in range(1, len(df_ocorrencias) + 1):
+
+        dados_frame = df_ocorrencias.iloc[:i]
+
+        ano_atual = int(
+            dados_frame.iloc[-1]["ano"]
+        )
+
+        frames.append(
+            go.Frame(
+
+                name=str(ano_atual),
+
+                data=[
+                    go.Scatter(
+                        x=dados_frame["ano"],
+                        y=dados_frame["quantidade_ocorrencias"],
+                        mode="lines+markers",
+
+                        line=dict(
+                            color="#58756A",
+                            width=3
+                        ),
+
+                        marker=dict(
+                            size=7,
+                            color="#24352D",
+                            line=dict(
+                                color="white",
+                                width=1
+                            )
+                        ),
+
+                        hovertemplate=(
+                            "<b>%{x}</b><br>"
+                            "Ocorrências: %{y:,}"
+                            "<extra></extra>"
+                        )
+                    )
+                ],
+
+                # ------------------------------------------------
+                # MARCOS CONTROLADOS PELA ANIMAÇÃO
+                # ------------------------------------------------
+
+                layout=go.Layout(
+
+                    shapes=[
+                        shape_marcos
+                    ],
+
+                    annotations=criar_anotacoes_marcos(
+                        ano_atual
+                    )
+                )
+            )
+        )
+
+    fig_ocorrencias.frames = frames
+
+    # --------------------------------------------------------
+    # SLIDER
+    # --------------------------------------------------------
+
+    slider_steps = []
+
+    for ano in df_ocorrencias["ano"]:
+
+        ano = int(ano)
+
+        slider_steps.append(
+            {
+                "args": [
+                    [str(ano)],
+                    {
+                        "frame": {
+                            "duration": 350,
+                            "redraw": True
+                        },
+                        "mode": "immediate",
+                        "transition": {
+                            "duration": 250
+                        }
+                    }
+                ],
+                "label": str(ano),
+                "method": "animate"
+            }
+        )
+
+    # --------------------------------------------------------
+    # CONFIGURAÇÃO DO GRÁFICO
+    # --------------------------------------------------------
+
+    fig_ocorrencias.update_layout(
+
+        template="plotly_white",
+
+        height=500,
+
+        title=(
+            "Como o conhecimento sobre as ocorrências "
+            "foi construído ao longo do tempo?"
         ),
-        bordercolor="#58756A"
+
+        margin=dict(
+            l=55,
+            r=30,
+            t=70,
+            b=95
+        ),
+
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+
+        font=dict(
+            family="Arial",
+            color="#24352D"
+        ),
+
+        # ----------------------------------------------------
+        # NÃO COLOCAMOS MARCOS AQUI.
+        #
+        # Eles entram somente nos FRAMES.
+        # ----------------------------------------------------
+
+        shapes=[],
+
+        annotations=[],
+
+        # ----------------------------------------------------
+        # EIXO X
+        # ----------------------------------------------------
+
+        xaxis=dict(
+            title="Ano",
+            showgrid=False,
+            zeroline=False,
+            range=[
+                limite_inferior_x,
+                limite_superior_x
+            ],
+            autorange=False
+        ),
+
+        # ----------------------------------------------------
+        # EIXO Y
+        # ----------------------------------------------------
+
+        yaxis=dict(
+            title="Quantidade de ocorrências",
+            type="log",
+            showgrid=True,
+            gridcolor="#E8EDEB",
+            zeroline=False,
+            range=[
+                math.log10(menor_ocorrencia),
+                math.log10(limite_superior_y)
+            ],
+            autorange=False
+        ),
+
+        hoverlabel=dict(
+            bgcolor="#24352D",
+            font=dict(
+                color="white",
+                size=13
+            ),
+            bordercolor="#58756A"
+        ),
+
+        # ----------------------------------------------------
+        # CONTROLES DE ANIMAÇÃO
+        # ----------------------------------------------------
+
+        updatemenus=[
+            {
+                "type": "buttons",
+                "direction": "left",
+                "showactive": False,
+
+                "x": 0,
+                "y": -0.18,
+
+                "xanchor": "left",
+                "yanchor": "top",
+
+                "buttons": [
+
+                    {
+                        "label": "▶ Reproduzir",
+                        "method": "animate",
+
+                        "args": [
+                            None,
+                            {
+                                "frame": {
+                                    "duration": 350,
+                                    "redraw": True
+                                },
+
+                                "fromcurrent": True,
+
+                                "transition": {
+                                    "duration": 250
+                                }
+                            }
+                        ]
+                    },
+
+                    {
+                        "label": "⏸ Pausar",
+                        "method": "animate",
+
+                        "args": [
+                            [None],
+                            {
+                                "frame": {
+                                    "duration": 0,
+                                    "redraw": False
+                                },
+
+                                "mode": "immediate",
+
+                                "transition": {
+                                    "duration": 0
+                                }
+                            }
+                        ]
+                    }
+
+                ]
+            }
+        ],
+
+        # ----------------------------------------------------
+        # LINHA DO TEMPO
+        # ----------------------------------------------------
+
+        sliders=[
+            {
+                "active": 0,
+
+                "x": 0,
+                "y": -0.08,
+                "len": 1,
+
+                "xanchor": "left",
+                "yanchor": "top",
+
+                "currentvalue": {
+                    "prefix": "Ano: ",
+
+                    "font": {
+                        "size": 14,
+                        "color": "#24352D"
+                    }
+                },
+
+                "transition": {
+                    "duration": 250,
+                    "easing": "cubic-in-out"
+                },
+
+                "steps": slider_steps
+            }
+        ]
+
     )
-)
 
 
 # ============================================================
@@ -275,44 +713,12 @@ fig_especies.update_layout(
 # TEXTO DOS INSIGHTS
 # ============================================================
 
-if crescimento_medio_ocorrencias is not None:
-
-    if crescimento_medio_ocorrencias > 0:
-
-        insight_ocorrencias = (
-            f"A quantidade de ocorrências registradas no GBIF "
-            f"apresentou uma variação média anual de "
-            f"{crescimento_medio_ocorrencias:.1f}% "
-            f"entre os anos com registros consecutivos disponíveis. "
-            f"Esse indicador ajuda a observar como o volume de "
-            f"registros foi se comportando ao longo do histórico."
-        )
-
-    elif crescimento_medio_ocorrencias < 0:
-
-        insight_ocorrencias = (
-            f"A quantidade de ocorrências registradas no GBIF "
-            f"apresentou uma variação média anual de "
-            f"{abs(crescimento_medio_ocorrencias):.1f}% para baixo "
-            f"entre os anos com registros consecutivos disponíveis. "
-            f"Esse indicador ajuda a observar como o volume de "
-            f"registros foi se comportando ao longo do histórico."
-        )
-
-    else:
-
-        insight_ocorrencias = (
-            "A quantidade de ocorrências registradas no GBIF "
-            "apresentou, em média, pouca variação entre os anos "
-            "com registros consecutivos disponíveis."
-        )
-
-else:
-
-    insight_ocorrencias = (
-        "Não há dados suficientes para calcular "
-        "a variação média anual das ocorrências."
-    )
+insight_ocorrencias = (
+    f"A base analisada reúne "
+    f"{total_ocorrencias_gbif:,} registros de ocorrência do GBIF. "
+    f"Esses registros permitem observar como a documentação da "
+    f"presença das espécies foi distribuída ao longo do tempo."
+)
 
 
 # ------------------------------------------------------------
@@ -390,8 +796,8 @@ layout = html.Div(
                         ),
 
                         html.P(
-                            "Como o conhecimento sobre o risco "
-                            "das espécies mudou ao longo do tempo?"
+                            "Como o conhecimento sobre as espécies "
+                            "foi construído ao longo do tempo?"
                         ),
 
                     ]
@@ -433,19 +839,22 @@ layout = html.Div(
                     className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
                     "Evolução",
+                    href="/evolucao",
                     className="nav-link active"
                 ),
 
-                html.Span(
+                dcc.Link(
                     "PANs",
-                    className="nav-link disabled"
+                     href="/pans",
+                    className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
                     "Espécies em destaque",
-                    className="nav-link disabled"
+                    href="/destaques",
+                    className="nav-link"
                 ),
 
             ]
@@ -482,11 +891,11 @@ layout = html.Div(
                                     children=[
 
                                         html.H2(
-                                            "O histórico das avaliações"
+                                            "O histórico das ocorrências"
                                         ),
 
                                         html.P(
-                                            "Período analisado na base IUCN",
+                                            "Período analisado na base GBIF",
                                             className="section-subtitle"
                                         ),
 
@@ -520,7 +929,7 @@ layout = html.Div(
 
                                         html.Div(
                                             "Quantidade de anos distintos "
-                                            "com avaliações registradas",
+                                            "com ocorrências registradas",
                                             className="stat-description"
                                         ),
 
@@ -581,23 +990,21 @@ layout = html.Div(
                                     children=[
 
                                         html.Div(
-                                            (
-                                                f"{crescimento_medio_ocorrencias:+.1f}%"
-                                                if crescimento_medio_ocorrencias
-                                                is not None
-                                                else "-"
+                                            f"{total_ocorrencias_gbif:,}".replace(
+                                                ",",
+                                                "."
                                             ),
                                             className="stat-number"
                                         ),
 
                                         html.Div(
-                                            "Variação média das ocorrências",
+                                            "Registros de ocorrência",
                                             className="stat-title"
                                         ),
 
                                         html.Div(
-                                            "Variação percentual média anual "
-                                            "dos registros do GBIF",
+                                            "Total de ocorrências "
+                                            "disponíveis na base GBIF",
                                             className="stat-description"
                                         ),
 

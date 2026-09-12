@@ -792,25 +792,25 @@ layout = html.Div(
                     className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
 
                     "Evolução",
-
-                    className="nav-link disabled"
+                    href="/evolucao",
+                    className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
 
                     "PANs",
-
-                    className="nav-link disabled"
+                    href="/pans",
+                    className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
 
-                    "Espécies em destaque",
-
-                    className="nav-link disabled"
+                   "Espécies em destaque",
+                    href="/destaques",
+                    className="nav-link"
                 ),
             ]
         ),

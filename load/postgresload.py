@@ -658,11 +658,12 @@ def carregar_fato_ocorrencia_gbif(
                 incerteza_metros,
                 categoria_iucn,
                 data_observacao,
+                ano_observacao,
                 tem_alerta_qualidade
             )
             VALUES (
                 %s, %s, %s, %s, %s,
-                %s, %s, %s, %s
+                %s, %s, %s, %s, %s
             )
             ON CONFLICT (gbif_id)
             DO NOTHING
@@ -681,6 +682,9 @@ def carregar_fato_ocorrencia_gbif(
                 ),
                 tratar_data(
                     linha.get("data_observacao")
+                ),
+                tratar_inteiro(
+                    linha.get("ano_observacao")
                 ),
                 tratar_booleano(
                     linha.get(

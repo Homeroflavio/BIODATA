@@ -810,8 +810,8 @@ def obter_evolucao_ocorrencias_gbif():
     Retorna a quantidade de ocorrências GBIF
     registradas em cada ano.
 
-    Considera somente ocorrências que possuem
-    data de observação válida.
+    Considera todas as ocorrências do banco, sem filtro
+    geográfico, utilizando o ano da ocorrência.
     """
 
     conexao = get_connection()
@@ -820,21 +820,18 @@ def obter_evolucao_ocorrencias_gbif():
 
         query = """
             SELECT
-                EXTRACT(
-                    YEAR FROM data_observacao
-                )::INTEGER AS ano,
-
+                ano_observacao AS ano,
                 COUNT(*) AS quantidade_ocorrencias
 
             FROM fato_ocorrencia_gbif
 
-            WHERE data_observacao IS NOT NULL
+            WHERE ano_observacao IS NOT NULL
 
             GROUP BY
-                EXTRACT(YEAR FROM data_observacao)
+                ano_observacao
 
             ORDER BY
-                ano;
+                ano_observacao;
         """
 
         return pd.read_sql_query(
@@ -1018,8 +1015,10 @@ def obter_periodo_avaliacoes_iucn():
 
 def obter_periodo_ocorrencias_gbif():
     """
-    Retorna o primeiro e o último ano com ocorrência
-    registrada no GBIF.
+    Retorna o primeiro e o último ano das ocorrências GBIF.
+
+    Considera todas as ocorrências do banco, sem filtro
+    geográfico, utilizando o ano da ocorrência.
     """
 
     conexao = get_connection()
@@ -1028,21 +1027,12 @@ def obter_periodo_ocorrencias_gbif():
 
         query = """
             SELECT
-                MIN(
-                    EXTRACT(
-                        YEAR FROM data_observacao
-                    )::INTEGER
-                ) AS primeiro_ano,
-
-                MAX(
-                    EXTRACT(
-                        YEAR FROM data_observacao
-                    )::INTEGER
-                ) AS ultimo_ano
+                MIN(ano_observacao) AS primeiro_ano,
+                MAX(ano_observacao) AS ultimo_ano
 
             FROM fato_ocorrencia_gbif
 
-            WHERE data_observacao IS NOT NULL;
+            WHERE ano_observacao IS NOT NULL;
         """
 
         return pd.read_sql_query(
@@ -1059,9 +1049,8 @@ def obter_crescimento_medio_ocorrencias_gbif():
     Calcula a variação percentual média anual das ocorrências
     registradas no GBIF.
 
-    O cálculo considera somente anos consecutivos que possuem
-    registros nos dois anos comparados e ignora anos cujo
-    valor anterior seja zero.
+    O cálculo utiliza o ano da ocorrência e considera somente
+    anos com registros nos dois pontos comparados.
     """
 
     conexao = get_connection()
@@ -1072,18 +1061,15 @@ def obter_crescimento_medio_ocorrencias_gbif():
             WITH ocorrencias_anuais AS (
 
                 SELECT
-                    EXTRACT(
-                        YEAR FROM data_observacao
-                    )::INTEGER AS ano,
-
+                    ano_observacao AS ano,
                     COUNT(*) AS quantidade_ocorrencias
 
                 FROM fato_ocorrencia_gbif
 
-                WHERE data_observacao IS NOT NULL
+                WHERE ano_observacao IS NOT NULL
 
                 GROUP BY
-                    EXTRACT(YEAR FROM data_observacao)
+                    ano_observacao
             ),
 
             variacoes AS (
@@ -1121,6 +1107,115 @@ def obter_crescimento_medio_ocorrencias_gbif():
         """
 
         return executar_query(query)
+
+    finally:
+        conexao.close()
+
+
+# ============================================================
+# PÁGINA 7 — ESPÉCIES EM DESTAQUE
+# ============================================================
+
+def obter_especies_destaque():
+    """
+    Retorna as espécies selecionadas para a Página 7.
+
+    A tabela especie_destaque define quais espécies fazem
+    parte da seleção apresentada na página.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                de.id AS especie_id,
+                de.nome_popular,
+                de.nome_cientifico
+            FROM especie_destaque ed
+
+            JOIN dim_especie de
+                ON de.id = ed.especie_id
+
+            ORDER BY
+                de.nome_popular;
+        """
+
+        return pd.read_sql_query(
+            query,
+            conexao
+        )
+
+    finally:
+        conexao.close()
+
+
+def obter_detalhes_especie_destaque(especie_id):
+    """
+    Retorna os principais dados de uma espécie em destaque.
+
+    Inclui:
+    - nome popular;
+    - nome científico;
+    - grupo taxonômico;
+    - categoria IUCN atual;
+    - quantidade de ocorrências no GBIF;
+    - última ocorrência registrada pelo ano da observação.
+    """
+
+    conexao = get_connection()
+
+    try:
+
+        query = """
+            SELECT
+                de.id AS especie_id,
+                de.nome_popular,
+                de.nome_cientifico,
+                de.grupo_taxonomico,
+
+                iucn.categoria_risco_codigo,
+
+                COUNT(fo.gbif_id) AS quantidade_ocorrencias,
+
+                MAX(fo.ano_observacao) AS ultima_ocorrencia
+
+            FROM dim_especie de
+
+            LEFT JOIN fato_avaliacao_iucn iucn
+                ON iucn.especie_id = de.id
+                AND iucn.e_avaliacao_atual = TRUE
+
+            LEFT JOIN fato_ocorrencia_gbif fo
+                ON fo.especie_id = de.id
+
+            WHERE de.id = %s
+
+            GROUP BY
+                de.id,
+                de.nome_popular,
+                de.nome_cientifico,
+                de.grupo_taxonomico,
+                iucn.categoria_risco_codigo;
+        """
+
+        df = pd.read_sql_query(
+            query,
+            conexao,
+            params=(especie_id,)
+        )
+
+        if df.empty:
+            return None
+
+        df["categoria_risco"] = (
+            df["categoria_risco_codigo"]
+            .map(TRADUCAO_CATEGORIAS)
+            .fillna(df["categoria_risco_codigo"])
+        )
+
+        return df.iloc[0].to_dict()
 
     finally:
         conexao.close()

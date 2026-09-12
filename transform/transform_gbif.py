@@ -294,6 +294,13 @@ def transformar_fato_ocorrencia(
                         "eventDate"
                     )
                 ),
+                
+                # Ano da observação, extraído do campo "year" da ocorrência.
+                "ano_observacao": (
+                    registro.get(
+                        "year"
+                    )
+                ),
 
                 # Se houver qualquer issue, marcamos
                 # alerta de qualidade como True.
@@ -363,6 +370,16 @@ def transformar_fato_ocorrencia(
             utc=True
         )
         .dt.date
+    )
+    
+    df_ocorrencias["ano_observacao"] = (
+    pd.to_numeric(
+        df_ocorrencias[
+                "ano_observacao"
+            ],
+            errors="coerce"
+        )
+        .astype("Int64")
     )
 
     # --------------------------------------------------------

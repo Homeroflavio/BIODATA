@@ -12,6 +12,8 @@ from pagina2 import layout as pagina2_layout
 from pagina3 import layout as pagina3_layout
 from pagina4 import layout as pagina4_layout
 from pagina5 import layout as pagina5_layout
+from pagina6 import layout as pagina6_layout
+from pagina7 import layout as pagina7_layout
 
 
 
@@ -146,15 +148,17 @@ pagina1_layout = html.Div(
                     className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
                     "PANs",
-                    className="nav-link disabled"
+                    href="/pans",
+                    className="nav-link"
                 ),
 
-                html.Span(
+                dcc.Link(
                     "Espécies em destaque",
-                    className="nav-link disabled"
-                ),
+                    href="/destaques",
+                    className="nav-link"
+                )
             ]
         ),
 
@@ -806,6 +810,12 @@ def renderizar_pagina(pathname):
 
     elif pathname == "/evolucao":
         return pagina5_layout
+    
+    elif pathname == "/pans":
+        return pagina6_layout
+    
+    elif pathname == "/destaques":
+        return pagina7_layout
 
     else:
         return pagina1_layout

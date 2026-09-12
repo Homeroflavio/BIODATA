@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime,timedelta
 import os
 import subprocess
 from pathlib import Path
@@ -66,7 +66,7 @@ def executar_script(caminho_script):
 @dag(
     dag_id="biodata_etl",
     start_date=datetime(2026, 8, 30),
-    schedule=None,
+    schedule=timedelta(days=15),
     catchup=False,
     tags=["biodata", "etl"],
 )
