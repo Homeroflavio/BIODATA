@@ -19,15 +19,14 @@ def get_connection():
         dbname=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
+        sslmode=os.getenv("DB_SSLMODE", "require"),
     )
     
 if __name__ == "__main__":
     conexao = get_connection()
-
     cursor = conexao.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM dim_especie;")
-
     resultado = cursor.fetchone()[0]
 
     print(f"Espécies no banco: {resultado}")

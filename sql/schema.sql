@@ -106,6 +106,7 @@ CREATE TABLE fato_ocorrencia_gbif (
     incerteza_metros NUMERIC,           -- fica alto de propósito p/ espécies muito ameaçadas
     categoria_iucn VARCHAR(5),          -- bônus: já vem embutido na resposta da GBIF
     data_observacao DATE,
+    ano_observacao INT,
     tem_alerta_qualidade BOOLEAN DEFAULT FALSE   -- baseado no campo "issues"
 );
 

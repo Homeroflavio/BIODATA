@@ -36,7 +36,7 @@ def executar_script(caminho_script):
     # Dentro do Docker, localhost aponta para o próprio container.
     # Como o PostgreSQL do Biodata está rodando no Windows,
     # usamos host.docker.internal para acessá-lo.
-    ambiente["DB_HOST"] = "host.docker.internal"
+    # Não esta mais agora ele esta em nuvem(ignorando o comentário acima)
 
     resultado = subprocess.run(
         ["python", str(caminho_script)],

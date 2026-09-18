@@ -9,3 +9,5 @@ __pycache__/
 dados_brutos/
 dados_transformados/
 dados_finais/
+biodata.dump
+*.log
