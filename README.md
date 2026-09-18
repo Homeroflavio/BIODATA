@@ -18,8 +18,8 @@
 
 ### 🔗 Dashboard
 
-**Link do dashboard:** `<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/befce427-49be-41e0-999b-5b854fae1a46" />
-`
+**Link do dashboard:** https://biodata-wlc4.onrender.com/
+
 
 ---
 
