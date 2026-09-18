@@ -1,4 +1,5 @@
 from dash import Dash, html, dcc, Input, Output
+import os
 
 from queries import (
     contar_especies,
@@ -25,6 +26,8 @@ app = Dash(
     __name__,
     suppress_callback_exceptions=True
 )
+
+server = app.server
 
 app.title = "Biodata | Biodiversidade"
 
@@ -827,7 +830,7 @@ def renderizar_pagina(pathname):
 
 if __name__ == "__main__":
     app.run(
-        debug=True,
-        host="127.0.0.1",
-        port=8050
+        debug=False,
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8050))
     )
