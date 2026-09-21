@@ -357,8 +357,8 @@ O Airflow continua sendo utilizado no ambiente atual para orquestração da pipe
 **Homero Flávio**  
 Estudante de Análise e Desenvolvimento de Sistemas, com foco em Engenharia e Análise de Dados.
 
-**GitHub:** `COLE AQUI O LINK`  
-**Dashboard:** `COLE AQUI O LINK DO RENDER`
+**𝗟𝗶𝗻𝗸𝗲𝗱𝗜𝗻 :** `https://www.linkedin.com/in/homeroflavio/`  
+**𝗗𝗮𝘀𝗵𝗯𝗼𝗮𝗿𝗱:** `https://biodata-wlc4.onrender.com/`
 
 ---
 
