@@ -447,7 +447,7 @@ layout = html.Div(
 
                         html.H1(
                             "Conheça algumas espécies "
-                            "da biodiversidade brasileira"
+                            "da biodiversidade"
                         ),
 
                         html.P(
