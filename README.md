@@ -9,12 +9,13 @@
 
 ---
 
-## 📸 Arquitetura do projeto
+## <img width="1344" height="600" alt="image" src="https://github.com/user-attachments/assets/a9587f67-4826-4fe8-ba2a-cca04e7da1c3" />
 
-> **Cole aqui a imagem da arquitetura geral do projeto.**  
-> Sugestão: `docs/arquitetura-biodata.png`
+  
 
-![Arquitetura do Biodata](docs/arquitetura-biodata.png)
+
+<img width="1347" height="601" alt="image" src="https://github.com/user-attachments/assets/e9cd32a3-9979-4ce9-b032-b296117373e6" />
+
 
 ### 🔗 Dashboard
 
@@ -25,10 +26,8 @@
 
 ## 🛫 Apache Airflow
 
-> **Cole aqui uma imagem da DAG `biodata_etl` em execução.**  
-> Sugestão: `docs/airflow-biodata.png`
+<img width="1366" height="603" alt="image" src="https://github.com/user-attachments/assets/db098869-256b-45c3-a123-d1bd5e1110d8" />
 
-![Airflow — DAG Biodata](docs/airflow-biodata.png)
 
 ---
 
