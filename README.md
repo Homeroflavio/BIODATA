@@ -5,7 +5,7 @@
 **Criador:** Homero Flávio  
 **Área:** Engenharia e Análise de Dados  
 **Ano:** 2026  
-**Status:** Em desenvolvimento / implantação em nuvem
+**Status:** Finalizado / Pequenas melhorias
 
 ---
 
